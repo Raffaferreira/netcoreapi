@@ -1,0 +1,6 @@
+{
+  "Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Users\\PC\\Documents\\GitHub\\WebApiInMemoryDatabase\\Application",
+  "Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Users\\PC\\Documents\\GitHub\\WebApiInMemoryDatabase\\Domain",
+  "Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Users\\PC\\Documents\\GitHub\\WebApiInMemoryDatabase\\Infrastructure",
+  "Presentation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Users\\PC\\Documents\\GitHub\\WebApiInMemoryDatabase\\WebApi"
+}

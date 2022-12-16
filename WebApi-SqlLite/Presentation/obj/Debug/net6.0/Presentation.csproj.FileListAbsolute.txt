@@ -1,0 +1,12 @@
+C:\Users\PC\Documents\GitHub\WebApi\Presentation\bin\Debug\net6.0\Presentation.deps.json
+C:\Users\PC\Documents\GitHub\WebApi\Presentation\bin\Debug\net6.0\Presentation.dll
+C:\Users\PC\Documents\GitHub\WebApi\Presentation\bin\Debug\net6.0\Presentation.pdb
+C:\Users\PC\Documents\GitHub\WebApi\Presentation\obj\Debug\net6.0\Presentation.csproj.AssemblyReference.cache
+C:\Users\PC\Documents\GitHub\WebApi\Presentation\obj\Debug\net6.0\Presentation.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\PC\Documents\GitHub\WebApi\Presentation\obj\Debug\net6.0\Presentation.AssemblyInfoInputs.cache
+C:\Users\PC\Documents\GitHub\WebApi\Presentation\obj\Debug\net6.0\Presentation.AssemblyInfo.cs
+C:\Users\PC\Documents\GitHub\WebApi\Presentation\obj\Debug\net6.0\Presentation.csproj.CoreCompileInputs.cache
+C:\Users\PC\Documents\GitHub\WebApi\Presentation\obj\Debug\net6.0\Presentation.dll
+C:\Users\PC\Documents\GitHub\WebApi\Presentation\obj\Debug\net6.0\refint\Presentation.dll
+C:\Users\PC\Documents\GitHub\WebApi\Presentation\obj\Debug\net6.0\Presentation.pdb
+C:\Users\PC\Documents\GitHub\WebApi\Presentation\obj\Debug\net6.0\ref\Presentation.dll

@@ -1,0 +1,10 @@
+if you have created another domain class to database on project, running this command will update your database model :
+
+Package Manager Console:
+Update-Database
+
+
+Or if you have started using migrations and created a initial database point with your domain class and need to generate your first database
+model, you can run the command below:
+
+add-migration MyFirstMigration
