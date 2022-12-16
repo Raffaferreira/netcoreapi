@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "25zaN0B9J2l60vfVwDqcGP87eBoOS+8H0sDdjWZW+q/2FrBVTINEMQNBDS3Uyg6n/CRONe8mi82gz+ASilrygw==",
+  "dgSpecHash": "0SnNfKXHqSMmfM3JYwA9/Vm2zDeh1hZ+R3dSOBUH4wjl/GovCTC2Ptz7tfzk8o/SxQL9+YO3qN7jKtOEuZGVWw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\PC\\Documents\\GitHub\\WebApi-SqlLite\\Infrastructure\\Infrastructure.csproj",
+  "projectFilePath": "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-SqlLite\\Infrastructure\\Infrastructure.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\PC\\.nuget\\packages\\microsoft.data.sqlite.core\\6.0.0\\microsoft.data.sqlite.core.6.0.0.nupkg.sha512",
     "C:\\Users\\PC\\.nuget\\packages\\microsoft.entityframeworkcore\\6.0.10\\microsoft.entityframeworkcore.6.0.10.nupkg.sha512",

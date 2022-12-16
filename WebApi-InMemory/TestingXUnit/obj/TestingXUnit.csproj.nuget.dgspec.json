@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\PC\\Documents\\GitHub\\WebApi\\TestingXUnit\\TestingXUnit.csproj": {}
+    "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-InMemory\\TestingXUnit\\TestingXUnit.csproj": {}
   },
   "projects": {
-    "C:\\Users\\PC\\Documents\\GitHub\\WebApi\\Application\\Application.csproj": {
+    "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-InMemory\\Application\\Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\PC\\Documents\\GitHub\\WebApi\\Application\\Application.csproj",
+        "projectUniqueName": "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-InMemory\\Application\\Application.csproj",
         "projectName": "Application",
-        "projectPath": "C:\\Users\\PC\\Documents\\GitHub\\WebApi\\Application\\Application.csproj",
+        "projectPath": "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-InMemory\\Application\\Application.csproj",
         "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\PC\\Documents\\GitHub\\WebApi\\Application\\obj\\",
+        "outputPath": "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-InMemory\\Application\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -29,8 +29,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Users\\PC\\Documents\\GitHub\\WebApi\\Domain\\Domain.csproj": {
-                "projectPath": "C:\\Users\\PC\\Documents\\GitHub\\WebApi\\Domain\\Domain.csproj"
+              "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-InMemory\\Domain\\Domain.csproj": {
+                "projectPath": "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-InMemory\\Domain\\Domain.csproj"
               }
             }
           }
@@ -64,14 +64,14 @@
         }
       }
     },
-    "C:\\Users\\PC\\Documents\\GitHub\\WebApi\\Domain\\Domain.csproj": {
+    "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-InMemory\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\PC\\Documents\\GitHub\\WebApi\\Domain\\Domain.csproj",
+        "projectUniqueName": "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-InMemory\\Domain\\Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "C:\\Users\\PC\\Documents\\GitHub\\WebApi\\Domain\\Domain.csproj",
+        "projectPath": "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-InMemory\\Domain\\Domain.csproj",
         "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\PC\\Documents\\GitHub\\WebApi\\Domain\\obj\\",
+        "outputPath": "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-InMemory\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -120,14 +120,14 @@
         }
       }
     },
-    "C:\\Users\\PC\\Documents\\GitHub\\WebApi\\Infrastructure\\Infrastructure.csproj": {
+    "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-InMemory\\Infrastructure\\Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\PC\\Documents\\GitHub\\WebApi\\Infrastructure\\Infrastructure.csproj",
+        "projectUniqueName": "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-InMemory\\Infrastructure\\Infrastructure.csproj",
         "projectName": "Infrastructure",
-        "projectPath": "C:\\Users\\PC\\Documents\\GitHub\\WebApi\\Infrastructure\\Infrastructure.csproj",
+        "projectPath": "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-InMemory\\Infrastructure\\Infrastructure.csproj",
         "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\PC\\Documents\\GitHub\\WebApi\\Infrastructure\\obj\\",
+        "outputPath": "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-InMemory\\Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -145,11 +145,11 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Users\\PC\\Documents\\GitHub\\WebApi\\Application\\Application.csproj": {
-                "projectPath": "C:\\Users\\PC\\Documents\\GitHub\\WebApi\\Application\\Application.csproj"
+              "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-InMemory\\Application\\Application.csproj": {
+                "projectPath": "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-InMemory\\Application\\Application.csproj"
               },
-              "C:\\Users\\PC\\Documents\\GitHub\\WebApi\\Domain\\Domain.csproj": {
-                "projectPath": "C:\\Users\\PC\\Documents\\GitHub\\WebApi\\Domain\\Domain.csproj"
+              "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-InMemory\\Domain\\Domain.csproj": {
+                "projectPath": "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-InMemory\\Domain\\Domain.csproj"
               }
             }
           }
@@ -193,14 +193,14 @@
         }
       }
     },
-    "C:\\Users\\PC\\Documents\\GitHub\\WebApi\\TestingXUnit\\TestingXUnit.csproj": {
+    "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-InMemory\\TestingXUnit\\TestingXUnit.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\PC\\Documents\\GitHub\\WebApi\\TestingXUnit\\TestingXUnit.csproj",
+        "projectUniqueName": "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-InMemory\\TestingXUnit\\TestingXUnit.csproj",
         "projectName": "TestingXUnit",
-        "projectPath": "C:\\Users\\PC\\Documents\\GitHub\\WebApi\\TestingXUnit\\TestingXUnit.csproj",
+        "projectPath": "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-InMemory\\TestingXUnit\\TestingXUnit.csproj",
         "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\PC\\Documents\\GitHub\\WebApi\\TestingXUnit\\obj\\",
+        "outputPath": "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-InMemory\\TestingXUnit\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -218,8 +218,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Users\\PC\\Documents\\GitHub\\WebApi\\WebApi\\Presentation.csproj": {
-                "projectPath": "C:\\Users\\PC\\Documents\\GitHub\\WebApi\\WebApi\\Presentation.csproj"
+              "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-InMemory\\WebApi\\Presentation.csproj": {
+                "projectPath": "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-InMemory\\WebApi\\Presentation.csproj"
               }
             }
           }
@@ -283,14 +283,14 @@
         }
       }
     },
-    "C:\\Users\\PC\\Documents\\GitHub\\WebApi\\WebApi\\Presentation.csproj": {
+    "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-InMemory\\WebApi\\Presentation.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\PC\\Documents\\GitHub\\WebApi\\WebApi\\Presentation.csproj",
+        "projectUniqueName": "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-InMemory\\WebApi\\Presentation.csproj",
         "projectName": "Presentation",
-        "projectPath": "C:\\Users\\PC\\Documents\\GitHub\\WebApi\\WebApi\\Presentation.csproj",
+        "projectPath": "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-InMemory\\WebApi\\Presentation.csproj",
         "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\PC\\Documents\\GitHub\\WebApi\\WebApi\\obj\\",
+        "outputPath": "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-InMemory\\WebApi\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -308,11 +308,11 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Users\\PC\\Documents\\GitHub\\WebApi\\Domain\\Domain.csproj": {
-                "projectPath": "C:\\Users\\PC\\Documents\\GitHub\\WebApi\\Domain\\Domain.csproj"
+              "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-InMemory\\Domain\\Domain.csproj": {
+                "projectPath": "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-InMemory\\Domain\\Domain.csproj"
               },
-              "C:\\Users\\PC\\Documents\\GitHub\\WebApi\\Infrastructure\\Infrastructure.csproj": {
-                "projectPath": "C:\\Users\\PC\\Documents\\GitHub\\WebApi\\Infrastructure\\Infrastructure.csproj"
+              "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-InMemory\\Infrastructure\\Infrastructure.csproj": {
+                "projectPath": "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-InMemory\\Infrastructure\\Infrastructure.csproj"
               }
             }
           }

@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\PC\\Documents\\GitHub\\WebApi\\Domain\\Domain.csproj",
+      "projectUniqueName": "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-InMemory\\Domain\\Domain.csproj",
       "projectName": "Domain",
-      "projectPath": "C:\\Users\\PC\\Documents\\GitHub\\WebApi\\Domain\\Domain.csproj",
+      "projectPath": "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-InMemory\\Domain\\Domain.csproj",
       "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\PC\\Documents\\GitHub\\WebApi\\Domain\\obj\\",
+      "outputPath": "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-InMemory\\Domain\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config",

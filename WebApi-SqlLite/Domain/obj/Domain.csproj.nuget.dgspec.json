@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\PC\\Documents\\GitHub\\WebApi-SqlLite\\Domain\\Domain.csproj": {}
+    "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-SqlLite\\Domain\\Domain.csproj": {}
   },
   "projects": {
-    "C:\\Users\\PC\\Documents\\GitHub\\WebApi-SqlLite\\Domain\\Domain.csproj": {
+    "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-SqlLite\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\PC\\Documents\\GitHub\\WebApi-SqlLite\\Domain\\Domain.csproj",
+        "projectUniqueName": "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-SqlLite\\Domain\\Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "C:\\Users\\PC\\Documents\\GitHub\\WebApi-SqlLite\\Domain\\Domain.csproj",
+        "projectPath": "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-SqlLite\\Domain\\Domain.csproj",
         "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\PC\\Documents\\GitHub\\WebApi-SqlLite\\Domain\\obj\\",
+        "outputPath": "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-SqlLite\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config",

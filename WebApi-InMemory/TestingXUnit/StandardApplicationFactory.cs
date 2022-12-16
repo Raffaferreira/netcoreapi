@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using System.Data.Common;
 
 namespace TestingXUnit
@@ -30,26 +31,28 @@ namespace TestingXUnit
             {
                 var root = new InMemoryDatabaseRoot();
 
-                var dbContextDescriptor = services.SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<WebApiDbContext>));
+                //var dbContextDescriptor = services.SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<WebApiDbContext>));
+                //services.Remove(dbContextDescriptor!);
+                //var dbConnectionDescriptor = services.SingleOrDefault(d => d.ServiceType == typeof(DbConnection));
+                //services.Remove(dbConnectionDescriptor!);
 
-                services.Remove(dbContextDescriptor!);
-
-                var dbConnectionDescriptor = services.SingleOrDefault(d => d.ServiceType == typeof(DbConnection));
-
-                services.Remove(dbConnectionDescriptor!);
-
-                services.AddSingleton<DbConnection>(container =>
-                {
-                    var connection = new SqliteConnection("DataSource=:memory:");
-                    connection.Open();
-
-                    return connection;
-                });
-
+                services.RemoveAll(typeof(DbContextOptions<WebApiDbContext>));
                 services.AddDbContext<WebApiDbContext>((container, options) =>
                 {
                     var connection = container.GetRequiredService<DbConnection>();
                     options.UseSqlite(connection);
+                });
+                //services.AddSingleton<DbConnection>(container =>
+                //{
+                //    var connection = new SqliteConnection("DataSource=:memory:");
+                //    connection.Open();
+
+                //    return connection;
+                //});
+
+                services.AddEntityFrameworkInMemoryDatabase().AddDbContext<WebApiDbContext>((sp, options) =>
+                {
+                    options.UseInMemoryDatabase("WebApi").UseInternalServiceProvider(sp);
                 });
             });
 

@@ -10630,11 +10630,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\PC\\Documents\\GitHub\\WebApi-SqlLite\\TestingXUnit\\TestingXUnit.csproj",
+      "projectUniqueName": "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-SqlLite\\TestingXUnit\\TestingXUnit.csproj",
       "projectName": "TestingXUnit",
-      "projectPath": "C:\\Users\\PC\\Documents\\GitHub\\WebApi-SqlLite\\TestingXUnit\\TestingXUnit.csproj",
+      "projectPath": "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-SqlLite\\TestingXUnit\\TestingXUnit.csproj",
       "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\PC\\Documents\\GitHub\\WebApi-SqlLite\\TestingXUnit\\obj\\",
+      "outputPath": "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-SqlLite\\TestingXUnit\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -10652,8 +10652,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Users\\PC\\Documents\\GitHub\\WebApi-SqlLite\\WebApi\\Presentation.csproj": {
-              "projectPath": "C:\\Users\\PC\\Documents\\GitHub\\WebApi-SqlLite\\WebApi\\Presentation.csproj"
+            "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-SqlLite\\WebApi\\Presentation.csproj": {
+              "projectPath": "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-SqlLite\\WebApi\\Presentation.csproj"
             }
           }
         }

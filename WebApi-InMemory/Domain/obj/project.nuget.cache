@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "PFSayC5L7x+20teDHwuye/j3TiwApK2iPaX0WTNictSvLoRuonT6ozY6HZnnTKztcbIB1wcozQ0C9CNpgKKHQw==",
+  "dgSpecHash": "URDZknWuJZYaiRpWNz5PhiECa/insTgzYvZecz3bEV9Bcr0yo7HygpYznNu15So1e3a3SXx3rUGkpznreR/qTg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\PC\\Documents\\GitHub\\WebApi\\Domain\\Domain.csproj",
+  "projectFilePath": "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-InMemory\\Domain\\Domain.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

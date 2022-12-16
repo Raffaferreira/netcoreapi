@@ -30,7 +30,8 @@ namespace WebApi.Dependencies.Startup
             builder.Services.AddSwaggerGen();
             builder.SwaggerDocumentation();
 
-            //builder.Services.AddDbContext<WebApiDbContext>(opt => opt.UseSqlite("DataSource=WebApi.db;Cache=Shared"));
+            builder.Services.AddDbContext<WebApiDbContext>(opt => opt.UseSqlite("DataSource=WebApi.db;Cache=Shared"));
+            builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             builder.Services.AddAuthorization();
             builder.Services.AddAuthentication();   

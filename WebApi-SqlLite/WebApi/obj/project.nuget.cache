@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "iKxtSop7O3zZQjQsN8YLf4hyirUklDFly7yIijadOZ+TAzPdppbblbEQTujDHWAvZdPq9ISUe3iilotzVGu/SA==",
+  "dgSpecHash": "Ts96/pGDLY0kpBMrO/LGiqrxBT2LqMRyJa2jl0sHXj7WZXOoP4R4BEJTbFjbLnbiVxGTbVGJEOuvk47Y+tHPAQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\PC\\Documents\\GitHub\\WebApi-SqlLite\\WebApi\\Presentation.csproj",
+  "projectFilePath": "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-SqlLite\\WebApi\\Presentation.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\PC\\.nuget\\packages\\aspnetcore.healthchecks.sqlserver\\6.0.2\\aspnetcore.healthchecks.sqlserver.6.0.2.nupkg.sha512",
     "C:\\Users\\PC\\.nuget\\packages\\aspnetcore.healthchecks.ui.client\\6.0.5\\aspnetcore.healthchecks.ui.client.6.0.5.nupkg.sha512",

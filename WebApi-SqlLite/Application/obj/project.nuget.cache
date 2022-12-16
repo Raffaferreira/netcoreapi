@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "mN++qfVSs8z4amAP5m9POAno0bGfT/25UdbrjE1dbk+A8qcHrRdrqJwq0KAnqGmougzzkD1fddul4ZLj1nNMkw==",
+  "dgSpecHash": "j2DCIUU8kYsY3OYc8hyvPFwoqnx249g23SRT9yzKqBFL4g9zoXezCK9lXUJoQJ8XiFVAOdBkvPNZOahpXvjHEw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\PC\\Documents\\GitHub\\WebApi-SqlLite\\Application\\Application.csproj",
+  "projectFilePath": "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-SqlLite\\Application\\Application.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

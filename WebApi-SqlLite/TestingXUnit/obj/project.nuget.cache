@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "TrFQFozDcpV7q2kj0fGYB3UXQOqOCKsgL5uuLBZeFS1RlrTB4/+EteTB3s77rifsFYa+Ct7H8CvxTZaStV/27Q==",
+  "dgSpecHash": "1uXTytIgw/qHhuktoNnDqh2dhyqnyBjzSyvD+36nLu0/s2cjuh9PVfdJacSzx0AafQfv9JPD8Rik3Af700C7pQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\PC\\Documents\\GitHub\\WebApi-SqlLite\\TestingXUnit\\TestingXUnit.csproj",
+  "projectFilePath": "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-SqlLite\\TestingXUnit\\TestingXUnit.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\PC\\.nuget\\packages\\aspnetcore.healthchecks.sqlserver\\6.0.2\\aspnetcore.healthchecks.sqlserver.6.0.2.nupkg.sha512",
     "C:\\Users\\PC\\.nuget\\packages\\aspnetcore.healthchecks.ui.client\\6.0.5\\aspnetcore.healthchecks.ui.client.6.0.5.nupkg.sha512",
