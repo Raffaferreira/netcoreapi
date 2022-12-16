@@ -1,0 +1,7 @@
+C:\Users\PC\Documents\GitHub\netcoreapi\WebApi-InMemory\WebApi.InMemory.IntegrationTest\bin\Debug\net6.0\CoverletSourceRootsMapping
+C:\Users\PC\Documents\GitHub\netcoreapi\WebApi-InMemory\WebApi.InMemory.IntegrationTest\obj\Debug\net6.0\WebApi.InMemory.IntegrationTest.csproj.AssemblyReference.cache
+C:\Users\PC\Documents\GitHub\netcoreapi\WebApi-InMemory\WebApi.InMemory.IntegrationTest\obj\Debug\net6.0\MvcTestingAppManifest.json
+C:\Users\PC\Documents\GitHub\netcoreapi\WebApi-InMemory\WebApi.InMemory.IntegrationTest\obj\Debug\net6.0\WebApi.InMemory.IntegrationTest.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\PC\Documents\GitHub\netcoreapi\WebApi-InMemory\WebApi.InMemory.IntegrationTest\obj\Debug\net6.0\WebApi.InMemory.IntegrationTest.AssemblyInfoInputs.cache
+C:\Users\PC\Documents\GitHub\netcoreapi\WebApi-InMemory\WebApi.InMemory.IntegrationTest\obj\Debug\net6.0\WebApi.InMemory.IntegrationTest.AssemblyInfo.cs
+C:\Users\PC\Documents\GitHub\netcoreapi\WebApi-InMemory\WebApi.InMemory.IntegrationTest\obj\Debug\net6.0\WebApi.InMemory.IntegrationTest.csproj.CoreCompileInputs.cache

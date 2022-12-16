@@ -1,6 +1,0 @@
-{
-  "Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-InMemory\\Application",
-  "Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-InMemory\\Domain",
-  "Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-InMemory\\Infrastructure",
-  "Presentation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-InMemory\\WebApi"
-}

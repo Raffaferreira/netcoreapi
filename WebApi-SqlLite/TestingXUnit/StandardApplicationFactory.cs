@@ -1,6 +1,7 @@
 ﻿using Domain.Interfaces.Repository;
 using Infrastructure.Context;
 using Infrastructure.Repositories;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Data.Common;
+using TestingXUnit.WebApi.Security;
 
 namespace TestingXUnit
 {
@@ -56,6 +58,12 @@ namespace TestingXUnit
 
             builder.ConfigureTestServices(services =>
             {
+                services.AddAuthentication("IntegrationTest")
+                .AddScheme<AuthenticationSchemeOptions, IntegrationTestAuthenticationHandler>("IntegrationTest", options =>
+                {
+
+                });
+
                 services.AddTransient<ICreditRepository, CreditRepository>();
                 services.AddTransient<IDebitRepository, DebitRepository>();
             });
