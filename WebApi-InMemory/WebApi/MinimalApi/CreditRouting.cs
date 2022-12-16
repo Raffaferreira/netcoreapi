@@ -25,7 +25,7 @@ namespace Presentation.MinimalApi
                 db.Credito.Add(crdt);
                 await db.SaveChangesAsync();
 
-                return Results.Created($"/transactions/{crdt.Id}", crdt);
+                return Results.Created($"/credit/{crdt.Id}", crdt);
             });
 
             app.MapPut("/credit/{accountId}", async (Guid accountId, Credito crdt, WebApiDbContext db) =>

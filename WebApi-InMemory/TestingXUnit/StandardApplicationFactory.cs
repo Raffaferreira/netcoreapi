@@ -37,11 +37,22 @@ namespace TestingXUnit
                 //services.Remove(dbConnectionDescriptor!);
 
                 services.RemoveAll(typeof(DbContextOptions<WebApiDbContext>));
-                services.AddDbContext<WebApiDbContext>((container, options) =>
-                {
-                    var connection = container.GetRequiredService<DbConnection>();
-                    options.UseSqlite(connection);
-                });
+                services.AddDbContext<WebApiDbContext>(options => options.UseInMemoryDatabase("WebApi", root));
+
+                //services.AddScoped(sp =>
+                //{
+                //    return new DbContextOptionsBuilder<WebApiDbContext>()
+                //    .UseInMemoryDatabase("WebApi", root)
+                //    .UseApplicationServiceProvider(sp)
+                //    .Options;
+                //});
+
+                //services.AddDbContext<WebApiDbContext>((container, options) =>
+                //{
+                //    var connection = container.GetRequiredService<DbConnection>();
+                //    options.UseSqlite(connection);
+                //});
+
                 //services.AddSingleton<DbConnection>(container =>
                 //{
                 //    var connection = new SqliteConnection("DataSource=:memory:");
@@ -50,10 +61,10 @@ namespace TestingXUnit
                 //    return connection;
                 //});
 
-                services.AddEntityFrameworkInMemoryDatabase().AddDbContext<WebApiDbContext>((sp, options) =>
-                {
-                    options.UseInMemoryDatabase("WebApi").UseInternalServiceProvider(sp);
-                });
+                //services.AddEntityFrameworkInMemoryDatabase().AddDbContext<WebApiDbContext>((sp, options) =>
+                //{
+                //    options.UseInMemoryDatabase("WebApi").UseInternalServiceProvider(sp);
+                //});
             });
 
             builder.ConfigureTestServices(services =>
