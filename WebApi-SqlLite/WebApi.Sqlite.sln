@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32825.248
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Presentation", "WebApi\Presentation.csproj", "{866EF569-2908-4789-AF9E-CABDCEED38DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Presentation", "Presentation\Presentation.csproj", "{866EF569-2908-4789-AF9E-CABDCEED38DE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestingXUnit", "TestingXUnit\TestingXUnit.csproj", "{A53D388A-B57A-4A68-800B-B299C85C1AC1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi.Sqlite.IntegrationTests", "WebApi.Sqlite.IntegrationTests\WebApi.Sqlite.IntegrationTests.csproj", "{A53D388A-B57A-4A68-800B-B299C85C1AC1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7E69A833-1B56-4D53-B230-3388B775CDC6}"
 	ProjectSection(SolutionItems) = preProject
@@ -18,6 +18,14 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\Application.csproj", "{83C4E307-24C2-448D-B7E9-5D1A6BB1502E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{4E0A81E7-8F74-4375-89D1-75DC8C676284}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B7A429D9-A650-478E-AD48-BAFACD3AA01C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{ABD6E6C1-506B-4E2C-BD58-DC38EC207A32}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi.Sqlite.FunctionalTests", "WebApi.Sqlite.FunctionalTests\WebApi.Sqlite.FunctionalTests.csproj", "{F81E5D74-3180-4AB6-A6F0-D1B82EC1719E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi.Sqlite.UnitTests", "WebApi.Sqlite.UnitTests\WebApi.Sqlite.UnitTests.csproj", "{38FA7062-084C-4D0D-B007-62382CC85345}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,9 +53,26 @@ Global
 		{4E0A81E7-8F74-4375-89D1-75DC8C676284}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E0A81E7-8F74-4375-89D1-75DC8C676284}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4E0A81E7-8F74-4375-89D1-75DC8C676284}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F81E5D74-3180-4AB6-A6F0-D1B82EC1719E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F81E5D74-3180-4AB6-A6F0-D1B82EC1719E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F81E5D74-3180-4AB6-A6F0-D1B82EC1719E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F81E5D74-3180-4AB6-A6F0-D1B82EC1719E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38FA7062-084C-4D0D-B007-62382CC85345}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38FA7062-084C-4D0D-B007-62382CC85345}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38FA7062-084C-4D0D-B007-62382CC85345}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38FA7062-084C-4D0D-B007-62382CC85345}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{866EF569-2908-4789-AF9E-CABDCEED38DE} = {B7A429D9-A650-478E-AD48-BAFACD3AA01C}
+		{A53D388A-B57A-4A68-800B-B299C85C1AC1} = {ABD6E6C1-506B-4E2C-BD58-DC38EC207A32}
+		{BC9C0359-2EC3-442E-97BF-CACAA55809E9} = {B7A429D9-A650-478E-AD48-BAFACD3AA01C}
+		{83C4E307-24C2-448D-B7E9-5D1A6BB1502E} = {B7A429D9-A650-478E-AD48-BAFACD3AA01C}
+		{4E0A81E7-8F74-4375-89D1-75DC8C676284} = {B7A429D9-A650-478E-AD48-BAFACD3AA01C}
+		{F81E5D74-3180-4AB6-A6F0-D1B82EC1719E} = {ABD6E6C1-506B-4E2C-BD58-DC38EC207A32}
+		{38FA7062-084C-4D0D-B007-62382CC85345} = {ABD6E6C1-506B-4E2C-BD58-DC38EC207A32}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B044FE9C-C8E3-407D-9E96-B896106DE749}
