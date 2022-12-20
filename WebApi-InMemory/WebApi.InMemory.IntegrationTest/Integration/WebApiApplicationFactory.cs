@@ -10,10 +10,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
+using Presentation;
 
 namespace WebApi.InMemory.IntegrationTest.Integration
 {
-    public class WebApiApplicationFactory<TProgram> : WebApplicationFactory<TProgram> where TProgram : class
+    public class WebApiApplicationFactory<TProgram> : WebApplicationFactory<TProgram> where TProgram : Program, new()
     {
         protected override void Dispose(bool disposing)
         {

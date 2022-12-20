@@ -10,7 +10,7 @@ using Xunit.Abstractions;
 namespace WebApi.InMemory.IntegrationTest.Integration.WebApi.UseCases
 {
     [Trait("Credit Api - Integration", "Integration")]
-    public class CreditTest :  IntegrationTesting
+    public class CreditTest : IntegrationTesting
     {
         public CreditTest(WebApiApplicationFactory<Program> factory)
             : base(factory)

@@ -3,6 +3,7 @@ using WebApi;
 
 namespace TestingXUnit
 {
+    [Trait("Category", "API Integration")]
     public abstract class IntegrationTesting : IClassFixture<WebApplicationFactory<Program>>
     {
         protected readonly WebApplicationFactory<Program> _factory;
