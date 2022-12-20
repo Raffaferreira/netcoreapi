@@ -34,7 +34,7 @@ namespace WebApi.InMemory.IntegrationTest.Integration.WebApi.UseCases
 
         [Theory]
         [InlineData("/credit/{accountId}", "3fa85f64-5717-4562-b3fc-2c963f66afa6")]
-        public async void Get_TransactionByAccountNumber_ReturnSuccessMessage(string url, Guid accountId)
+        public async void Get_TransactionByAccountNumber_ReturnSuccessObjectAsJson(string url, Guid accountId)
         {
             //Arrange
             var credito = new Credito()
@@ -59,7 +59,7 @@ namespace WebApi.InMemory.IntegrationTest.Integration.WebApi.UseCases
 
         [Theory]
         [InlineData("/credit/{accountId}", "3fa85f64-5717-4562-b3fc-2c963f66afa6")]
-        public async void Get_TransactionByAccountNumberNotFound_ReturnSuccessMessage(string url, Guid accountId)
+        public async void Get_NonTransactionByAccountNumber_ReturnMessageNotFound(string url, Guid accountId)
         {
             //Arrange
             var credito = new Credito()
