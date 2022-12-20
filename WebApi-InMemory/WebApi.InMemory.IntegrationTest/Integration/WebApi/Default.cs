@@ -1,13 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Testing;
 using Presentation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WebApi;
 
-namespace TestingXUnit.Integration.WebApi
+namespace WebApi.InMemory.IntegrationTest.Integration.WebApi
 {
     public class Default : IClassFixture<WebApplicationFactory<Program>>
     {

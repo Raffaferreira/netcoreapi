@@ -3,14 +3,14 @@ using Presentation;
 using System.Net;
 using System.Net.Http.Json;
 
-namespace TestingXUnit.Integration.WebApi.UseCases
+namespace WebApi.InMemory.IntegrationTest.Integration.WebApi.UseCases
 {
-    public class DebitTest : IClassFixture<StandardApplicationFactory<Program>>
+    public class DebitTest : IClassFixture<WebApiApplicationFactory<Program>>
     {
-        private readonly StandardApplicationFactory<Program> _factory;
+        private readonly WebApiApplicationFactory<Program> _factory;
         private readonly HttpClient _httpClient;
 
-        public DebitTest(StandardApplicationFactory<Program> factory)
+        public DebitTest(WebApiApplicationFactory<Program> factory)
         {
             _factory = factory;
             _httpClient = _factory.CreateDefaultClient();

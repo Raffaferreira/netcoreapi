@@ -2,20 +2,18 @@
 using Presentation;
 using Xunit.Abstractions;
 
-namespace TestingXUnit.Integration
+namespace WebApi.InMemory.IntegrationTest.Integration
 {
-    [Trait("Category", "Integration")]
-    public abstract class IntegrationTesting : IClassFixture<StandardApplicationFactory<Program>>//IClassFixture<WebApplicationFactory<Program>>
+    [Trait("Category", "API Integration")]
+    public abstract class IntegrationTesting : IClassFixture<WebApiApplicationFactory<Program>> 
     {
-        protected readonly WebApplicationFactory<Program> _factory;
-        protected readonly HttpClient _httpClient;
-        protected readonly ITestOutputHelper _testOutputHelper;
+        protected readonly WebApiApplicationFactory<Program> _factory;
+        protected readonly HttpClient _client;
 
-        public IntegrationTesting(WebApplicationFactory<Program> factory, ITestOutputHelper testOutputHelper)
+        public IntegrationTesting(WebApiApplicationFactory<Program> factory)
         {
-            _testOutputHelper = testOutputHelper;
             _factory = factory;
-            _httpClient = _factory.CreateDefaultClient();
+            _client = _factory.CreateClient();
         }
     }
 }

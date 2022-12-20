@@ -5,7 +5,7 @@ using Presentation;
 using System.Net;
 using System.Net.Http.Json;
 
-namespace TestingXUnit.Integration.WebApi.UseCases
+namespace WebApi.InMemory.IntegrationTest.Integration.WebApi.UseCases
 {
     [Trait("Category", "Integration")]
     public class TransactionsTest : IClassFixture<WebApplicationFactory<Program>>
