@@ -27,5 +27,10 @@ namespace Infrastructure.Repositories
                 context.SaveChanges();
             }
         }
+
+        public async Task<List<Customer>> GetCustomers()
+        {
+            return null;
+        }
     }
 }
