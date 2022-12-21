@@ -140,7 +140,7 @@ namespace Presentation.Dependencies.Startup
         /// <returns></returns>
         public static string ConnectionStringSqlite(this WebApplicationBuilder builder)
         {
-            string connectionString = builder.Configuration.GetConnectionString("SqliteConnectionString") ?? "DataSource=Presentation.db";
+            string connectionString = builder.Configuration.GetConnectionString("SqliteConnectionString") ?? "DataSource=WebApi.db";
             builder.Services.AddSqlite<WebApiDbContext>(connectionString);
 
             return connectionString;

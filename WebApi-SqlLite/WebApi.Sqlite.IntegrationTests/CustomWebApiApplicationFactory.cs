@@ -9,6 +9,7 @@ using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Presentation;
 using System.Data.Common;
 using TestingXUnit.WebApi.Security;
@@ -31,8 +32,12 @@ namespace TestingXUnit
             builder.ConfigureServices(services =>
             {
                 var dbContextDescriptor = services.SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<WebApiDbContext>));
-                services.Remove(dbContextDescriptor!);
+                if (dbContextDescriptor != null)
+                {
+                    services.Remove(dbContextDescriptor!);
+                }
 
+                services.RemoveAll(typeof(DbContextOptions<WebApiDbContext>));
 
                 var dbConnectionDescriptor = services.SingleOrDefault(d => d.ServiceType == typeof(DbConnection));
                 services.Remove(dbConnectionDescriptor!);
@@ -51,6 +56,13 @@ namespace TestingXUnit
                     var connection = container.GetRequiredService<DbConnection>();
                     options.UseSqlite(connection);
                 });
+
+                //services.AddEntityFrameworkInMemoryDatabase()
+                //.AddDbContext<WebApiDbContext>((sp, options) =>
+                //{
+                //    options.UseInMemoryDatabase("DataSource=:memory:");
+                //    options.UseInternalServiceProvider(services.BuildServiceProvider());
+                //});
             });
 
             builder.ConfigureTestServices(services =>
@@ -63,8 +75,6 @@ namespace TestingXUnit
                 {
 
                 });
-
-            
             });
 
             builder.UseEnvironment("Development");
