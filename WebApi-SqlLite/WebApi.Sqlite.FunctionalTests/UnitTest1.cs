@@ -1,4 +1,4 @@
-namespace WebApi.Sqlite.FunctionalTests
+namespace Presentation.Sqlite.FunctionalTests
 {
     public class UnitTest1
     {

@@ -1,15 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc.Testing;
-using WebApi;
+﻿using Presentation;
 
 namespace TestingXUnit
 {
     [Trait("Category", "API Integration")]
-    public abstract class IntegrationTesting : IClassFixture<WebApplicationFactory<Program>>
+    public abstract class IntegrationTesting : IClassFixture<CustomWebApiApplicationFactory<Program>>
     {
-        protected readonly WebApplicationFactory<Program> _factory;
+        protected readonly CustomWebApiApplicationFactory<Program> _factory;
         protected readonly HttpClient _httpClient;
 
-        public IntegrationTesting(WebApplicationFactory<Program> factory)
+        public IntegrationTesting(CustomWebApiApplicationFactory<Program> factory)
         {
             _factory = factory;
             _httpClient = _factory.CreateDefaultClient();

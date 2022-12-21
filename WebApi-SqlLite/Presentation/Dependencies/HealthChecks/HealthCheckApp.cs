@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
 
-namespace WebApi.Dependencies.HealthChecks
+namespace Presentation.Dependencies.HealthChecks
 {
     /// <summary>
     /// 

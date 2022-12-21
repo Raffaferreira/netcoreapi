@@ -1,16 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc.Testing;
-using Presentation;
-using Xunit.Abstractions;
+﻿using Presentation;
 
 namespace WebApi.InMemory.IntegrationTest.Integration
 {
     [Trait("Category", "API Integration")]
-    public abstract class IntegrationTesting : IClassFixture<WebApiApplicationFactory<Program>> 
+    public abstract class IntegrationTesting : IClassFixture<CustomWebApiApplicationFactory<Program>> 
     {
-        protected readonly WebApiApplicationFactory<Program> _factory;
+        protected readonly CustomWebApiApplicationFactory<Program> _factory;
         protected readonly HttpClient _client;
 
-        public IntegrationTesting(WebApiApplicationFactory<Program> factory)
+        public IntegrationTesting(CustomWebApiApplicationFactory<Program> factory)
         {
             _factory = factory;
             _client = _factory.CreateClient();

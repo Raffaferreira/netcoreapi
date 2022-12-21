@@ -5,12 +5,12 @@ using System.Net.Http.Json;
 
 namespace WebApi.InMemory.IntegrationTest.Integration.WebApi.UseCases
 {
-    public class DebitTest : IClassFixture<WebApiApplicationFactory<Program>>
+    public class DebitTest : IClassFixture<CustomWebApiApplicationFactory<Program>>
     {
-        private readonly WebApiApplicationFactory<Program> _factory;
+        private readonly CustomWebApiApplicationFactory<Program> _factory;
         private readonly HttpClient _httpClient;
 
-        public DebitTest(WebApiApplicationFactory<Program> factory)
+        public DebitTest(CustomWebApiApplicationFactory<Program> factory)
         {
             _factory = factory;
             _httpClient = _factory.CreateDefaultClient();

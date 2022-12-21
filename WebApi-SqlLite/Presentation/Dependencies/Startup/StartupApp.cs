@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
-namespace WebApi.Dependencies.Startup
+namespace Presentation.Dependencies.Startup
 {
     /// <summary>
     /// A web application configuration

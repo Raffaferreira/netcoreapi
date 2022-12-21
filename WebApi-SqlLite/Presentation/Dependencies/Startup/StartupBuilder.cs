@@ -10,9 +10,9 @@ using Microsoft.OpenApi.Models;
 using System.Reflection;
 using System.Text;
 using System.Text.Json;
-using WebApi.Dependencies.HealthChecks;
+using Presentation.Dependencies.HealthChecks;
 
-namespace WebApi.Dependencies.Startup
+namespace Presentation.Dependencies.Startup
 {
     /// <summary>
     /// 
@@ -30,7 +30,7 @@ namespace WebApi.Dependencies.Startup
             builder.Services.AddSwaggerGen();
             builder.SwaggerDocumentation();
 
-            builder.Services.AddDbContext<WebApiDbContext>(opt => opt.UseSqlite("DataSource=WebApi.db;Cache=Shared"));
+            builder.Services.AddDbContext<WebApiDbContext>(opt => opt.UseSqlite("DataSource=Presentation.db;Cache=Shared"));
             builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             builder.Services.AddAuthorization();
@@ -140,7 +140,7 @@ namespace WebApi.Dependencies.Startup
         /// <returns></returns>
         public static string ConnectionStringSqlite(this WebApplicationBuilder builder)
         {
-            string connectionString = builder.Configuration.GetConnectionString("SqliteConnectionString") ?? "DataSource=WebApi.db";
+            string connectionString = builder.Configuration.GetConnectionString("SqliteConnectionString") ?? "DataSource=Presentation.db";
             builder.Services.AddSqlite<WebApiDbContext>(connectionString);
 
             return connectionString;

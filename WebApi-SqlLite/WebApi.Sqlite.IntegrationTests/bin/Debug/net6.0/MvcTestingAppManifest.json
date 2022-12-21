@@ -1,0 +1,6 @@
+{
+  "Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-SqlLite\\Application",
+  "Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-SqlLite\\Domain",
+  "Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-SqlLite\\Infrastructure",
+  "Presentation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Users\\PC\\Documents\\GitHub\\netcoreapi\\WebApi-SqlLite\\Presentation"
+}

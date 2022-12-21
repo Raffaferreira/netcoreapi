@@ -8,17 +8,17 @@ using System.Net.Http.Json;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using WebApi;
+using Presentation;
 using Azure;
 
 namespace TestingXUnit.WebApi.UseCases
 {
-    public class DebitUnitTesting : IClassFixture<StandardApplicationFactory<Program>>
+    public class DebitUnitTesting : IClassFixture<CustomWebApiApplicationFactory<Program>>
     {
-        private readonly StandardApplicationFactory<Program> _factory;
+        private readonly CustomWebApiApplicationFactory<Program> _factory;
         private readonly HttpClient _httpClient;
 
-        public DebitUnitTesting(StandardApplicationFactory<Program> factory)
+        public DebitUnitTesting(CustomWebApiApplicationFactory<Program> factory)
         {
             _factory = factory;
             _httpClient = _factory.CreateDefaultClient();

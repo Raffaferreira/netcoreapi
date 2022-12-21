@@ -1,10 +1,8 @@
-using Domain.Models;
 using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Presentation.Dependencies.Startup;
-using WebApi.Dependencies.Startup;
 
-namespace WebApi
+namespace Presentation
 {
     public class Program
     {

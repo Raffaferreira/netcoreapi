@@ -10,7 +10,7 @@ namespace WebApi.InMemory.IntegrationTest.Integration.WebApi.UseCases
     [Trait("Customer Api - Integration", "Integration")]
     public class CustomerTest : IntegrationTesting
     {
-        public CustomerTest(WebApiApplicationFactory<Program> factory) : base(factory)
+        public CustomerTest(CustomWebApiApplicationFactory<Program> factory) : base(factory)
         {
         }
     }

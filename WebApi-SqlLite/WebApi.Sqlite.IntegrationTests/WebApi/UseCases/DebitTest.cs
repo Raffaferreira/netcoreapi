@@ -1,16 +1,16 @@
 ﻿using Domain.Models;
 using System.Net;
 using System.Net.Http.Json;
-using WebApi;
+using Presentation;
 
 namespace TestingXUnit.WebApi.UseCases
 {
-    public class DebitTest : IClassFixture<StandardApplicationFactory<Program>>
+    public class DebitTest : IClassFixture<CustomWebApiApplicationFactory<Program>>
     {
-        private readonly StandardApplicationFactory<Program> _factory;
+        private readonly CustomWebApiApplicationFactory<Program> _factory;
         private readonly HttpClient _httpClient;
 
-        public DebitTest(StandardApplicationFactory<Program> factory)
+        public DebitTest(CustomWebApiApplicationFactory<Program> factory)
         {
             _factory = factory;
             _httpClient = _factory.CreateDefaultClient();

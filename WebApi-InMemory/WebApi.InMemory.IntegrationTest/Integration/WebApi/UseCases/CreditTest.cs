@@ -1,19 +1,17 @@
-﻿using Azure;
-using Domain.Models;
-using Microsoft.AspNetCore.Mvc.Testing;
+﻿using Domain.Models;
+using Infrastructure.Context;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Presentation;
 using System.Net;
 using System.Net.Http.Json;
-using Xunit.Abstractions;
 
 namespace WebApi.InMemory.IntegrationTest.Integration.WebApi.UseCases
 {
     [Trait("Credit Api - Integration", "Integration")]
     public class CreditTest : IntegrationTesting
     {
-        public CreditTest(WebApiApplicationFactory<Program> factory)
-            : base(factory)
+        public CreditTest(CustomWebApiApplicationFactory<Program> factory): base(factory)
         { }
 
         [Theory]
@@ -28,6 +26,35 @@ namespace WebApi.InMemory.IntegrationTest.Integration.WebApi.UseCases
 
             //Assert
             Assert.Empty(responseTransactions);
+            Assert.NotNull(responseTransactions);
+            Assert.True(responseTransactions!.Count() >= 0);
+        }
+
+        [Theory]
+        [InlineData("/credit")]
+        public async void Get_Transactions_ReturnSuccessAndContent(string url)
+        {
+            //Arrange
+            using (var scope = _factory.Services.CreateScope())
+            {
+                var provider = scope.ServiceProvider;
+                using (var webApiDbContext = provider.GetRequiredService<WebApiDbContext>())
+                {
+                    await webApiDbContext.Database.EnsureCreatedAsync();
+
+                    await webApiDbContext.Credito.AddAsync(new Credito { Id = Guid.NewGuid(), Value = 5865.00M, AccountTobeCredited = 0011 });
+                    await webApiDbContext.Credito.AddAsync(new Credito { Id = Guid.NewGuid(), Value = 7270.20M, AccountTobeCredited = 0012 });
+                    await webApiDbContext.SaveChangesAsync();
+                }
+            }
+
+            var httpClient = _factory.CreateClient();
+
+            //Act
+            var responseTransactions = await httpClient.GetFromJsonAsync<IEnumerable<Credito>>(url);
+
+            //Assert
+            Assert.NotEmpty(responseTransactions);
             Assert.NotNull(responseTransactions);
             Assert.True(responseTransactions!.Count() >= 0);
         }
