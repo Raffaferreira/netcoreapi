@@ -30,19 +30,19 @@ namespace Presentation.MinimalApi
 
             app.MapPut("/credit/{accountId}", async (Guid accountId, Credito crdt, WebApiDbContext db) =>
             {
-                var todo = await db.Debito.FindAsync(accountId);
+                var credito = await db.Credito.FindAsync(accountId);
 
-                if (todo is null) return Results.NotFound();
+                if (credito is null) return Results.NotFound();
 
-                todo.AccountTobeWithdraw = crdt.AccountTobeCredited;
-                todo.Value = crdt.Value;
+                credito.AccountTobeCredited = crdt.AccountTobeCredited;
+                credito.Value = crdt.Value;
 
                 await db.SaveChangesAsync();
 
-                return Results.Ok();
+                return Results.NoContent();
             });
 
-            app.MapDelete("/credit/{id}", async (Guid accountId, WebApiDbContext db) =>
+            app.MapDelete("/credit/{accountId}", async (Guid accountId, WebApiDbContext db) =>
             {
                 if (await db.Credito.FindAsync(accountId) is Credito credito)
                 {

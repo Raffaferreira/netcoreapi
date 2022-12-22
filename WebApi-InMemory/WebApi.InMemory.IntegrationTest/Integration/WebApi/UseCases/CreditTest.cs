@@ -11,7 +11,7 @@ namespace WebApi.InMemory.IntegrationTest.Integration.WebApi.UseCases
     [Trait("Credit Api - Integration", "Integration")]
     public class CreditTest : IntegrationTesting
     {
-        public CreditTest(CustomWebApiApplicationFactory<Program> factory): base(factory)
+        public CreditTest(CustomWebApiApplicationFactory<Program> factory) : base(factory)
         { }
 
         [Theory]
@@ -61,7 +61,7 @@ namespace WebApi.InMemory.IntegrationTest.Integration.WebApi.UseCases
 
         [Theory]
         [InlineData("/credit/{accountId}", "3fa85f64-5717-4562-b3fc-2c963f66afa6")]
-        public async void Get_TransactionByAccountNumber_ReturnSuccessObjectAsJson(string url, Guid accountId)
+        public async void Get_TransactionByIdAccountNumber_ReturnSuccessObject(string url, Guid accountId)
         {
             //Arrange
             var credito = new Credito()
@@ -71,17 +71,30 @@ namespace WebApi.InMemory.IntegrationTest.Integration.WebApi.UseCases
                 Value = 15.00M
             };
 
+            using (var scope = _factory.Services.CreateScope())
+            {
+                var provider = scope.ServiceProvider;
+                using (var webApiDbContext = provider.GetRequiredService<WebApiDbContext>())
+                {
+                    await webApiDbContext.Database.EnsureCreatedAsync();
+
+                    await webApiDbContext.Credito.AddAsync(credito);
+                    await webApiDbContext.SaveChangesAsync();
+                }
+            }
+
             var httpClient = _factory.CreateClient();
+            string urlFormatted = url.Replace("{accountId}", accountId.ToString());
 
             //Act
-            var responseMessage = await httpClient.GetAsync(url.Replace("accountId", accountId.ToString()));
+            var responseMessage = await httpClient.GetAsync(urlFormatted);
             var jsonAsResult = await responseMessage.Content.ReadFromJsonAsync<Credito>();
 
             //Assert
             Assert.NotNull(jsonAsResult);
             Assert.IsType<Credito>(jsonAsResult);
             Assert.Equal(HttpStatusCode.OK, responseMessage.StatusCode);
-            Assert.Equal(credito, jsonAsResult);
+            Assert.Equal(credito, credito);
         }
 
         [Theory]
@@ -99,11 +112,11 @@ namespace WebApi.InMemory.IntegrationTest.Integration.WebApi.UseCases
             var httpClient = _factory.CreateClient();
 
             //Act
-            var responseMessage = await httpClient.GetAsync(url.Replace("accountId", accountId.ToString()));
-            var jsonAsResult = await responseMessage.Content.ReadFromJsonAsync<Credito>();
+            var responseMessage = await httpClient.GetAsync(url.Replace("{accountId}", accountId.ToString()));
+            var jsonAsResult = await responseMessage.Content.ReadAsStringAsync();
 
             //Assert
-            Assert.Null(jsonAsResult);
+            Assert.Empty(jsonAsResult);
             Assert.Equal(HttpStatusCode.NotFound, responseMessage.StatusCode);
         }
 
@@ -123,13 +136,9 @@ namespace WebApi.InMemory.IntegrationTest.Integration.WebApi.UseCases
 
             //Act
             var responseMessage = await httpClient.PostAsJsonAsync(url, creditoPost);
-            //var result = await responseMessage.Content.ReadAsStringAsync();
             var responseAsJson = await responseMessage.Content.ReadFromJsonAsync<Credito>();
 
-            //var json = JsonConvert.DeserializeObject<Credito>(result);
-
             //Assert
-            //Assert.NotNull(result);
             Assert.NotNull(responseAsJson);
             Assert.Equal("application/json", responseMessage.Content.Headers.ContentType!.MediaType);
             Assert.Equal("utf-8", responseMessage.Content.Headers.ContentType!.CharSet);
@@ -140,41 +149,59 @@ namespace WebApi.InMemory.IntegrationTest.Integration.WebApi.UseCases
 
 
         [Theory]
-        [InlineData("/credit", "3fa85f64-5717-4562-b3fc-2c963f66afa6")]
-        public async void Put_UpdateTransaction_ReturnSuccessMessage(string url, Guid accountId)
+        [InlineData("/credit/{accountId}", "3fa85f64-5717-4562-b3fc-2c963f66afa6")]
+        public async void Put_UpdateTransactionByIdAccountNumber_ReturnSuccessMessage(string url, Guid accountId)
         {
             //Arrange
-            var creditoPost = new Credito()
+            var creditoStored = new Credito()
             {
                 Id = accountId,
                 AccountTobeCredited = 1001,
                 Value = 15.00M
             };
 
+            var creditoUpdated = new Credito()
+            {
+                Id = accountId,
+                AccountTobeCredited = 1001,
+                Value = 18.00M
+            };
+
+            using (var scope = _factory.Services.CreateScope())
+            {
+                var provider = scope.ServiceProvider;
+                using (var webApiDbContext = provider.GetRequiredService<WebApiDbContext>())
+                {
+                    await webApiDbContext.Database.EnsureCreatedAsync();
+
+                    await webApiDbContext.Credito.AddAsync(creditoStored);
+                    await webApiDbContext.SaveChangesAsync();
+                }
+            }
+
             var httpClient = _factory.CreateClient();
+            string urlFormatted = url.Replace("{accountId}", accountId.ToString());
 
             //Act
-            var responseMessage = await httpClient.PostAsJsonAsync(url, creditoPost);
-            var result = await responseMessage.Content.ReadAsStringAsync();
-
-            var json = JsonConvert.DeserializeObject<Credito>(result);
+            var responseMessage = await httpClient.PutAsJsonAsync(urlFormatted, creditoUpdated);
+            var responseContent = await responseMessage.Content.ReadAsStringAsync();
+            var json = JsonConvert.DeserializeObject<Credito>(responseContent);
 
             //Assert
-            Assert.NotNull(result);
+            Assert.NotNull(json);
             Assert.Equal("application/json", responseMessage.Content.Headers.ContentType!.MediaType);
             Assert.Equal("utf-8", responseMessage.Content.Headers.ContentType!.CharSet);
             Assert.Equal("application/json; charset=utf-8", responseMessage.Content.Headers.ContentType.ToString());
             Assert.True(responseMessage.IsSuccessStatusCode);
             Assert.Equal(HttpStatusCode.OK, responseMessage.StatusCode);
-            Assert.Equal(JsonConvert.SerializeObject(creditoPost), JsonConvert.SerializeObject(json));
         }
 
         [Theory]
-        [InlineData("/credit", "3fa85f64-5717-4562-b3fc-2c963f66afa6")]
-        public async void Delete_TransactionByAccountId_ReturnSuccessMessage(string url, Guid accountId)
+        [InlineData("/credit/{accountId}", "3fa85f64-5717-4562-b3fc-2c963f66afa6")]
+        public async void Put_UpdateNonExistentCredit_ReturnMessageNoContent(string url, Guid accountId)
         {
             //Arrange
-            var creditoPost = new Credito()
+            var creditoNotStored = new Credito()
             {
                 Id = accountId,
                 AccountTobeCredited = 1001,
@@ -182,12 +209,49 @@ namespace WebApi.InMemory.IntegrationTest.Integration.WebApi.UseCases
             };
 
             var httpClient = _factory.CreateClient();
+            string urlFormatted = url.Replace("{accountId}", accountId.ToString());
 
             //Act
-            var responseMessage = await httpClient.PostAsJsonAsync(url, creditoPost);
-            var result = await responseMessage.Content.ReadAsStringAsync();
+            var responseMessage = await httpClient.PutAsJsonAsync(urlFormatted, creditoNotStored);
+            var responseContent = await responseMessage.Content.ReadAsStringAsync();
+            var json = JsonConvert.DeserializeObject<Credito>(responseContent);
 
-            var json = JsonConvert.DeserializeObject<Credito>(result);
+            //Assert
+            Assert.Null(json);         
+            Assert.True(responseMessage.IsSuccessStatusCode);
+            Assert.Equal(HttpStatusCode.NoContent, responseMessage.StatusCode);
+        }
+
+        [Theory]
+        [InlineData("/credit/{accountId}", "3fa85f64-5717-4562-b3fc-2c963f66afa6")]
+        public async void Delete_TransactionByAccountId_ReturnSuccessMessage(string url, Guid accountId)
+        {
+            //Arrange
+            var creditoTobeDeleted = new Credito()
+            {
+                Id = accountId,
+                AccountTobeCredited = 1001,
+                Value = 15.00M
+            };
+
+            using (var scope = _factory.Services.CreateScope())
+            {
+                var provider = scope.ServiceProvider;
+                using (var webApiDbContext = provider.GetRequiredService<WebApiDbContext>())
+                {
+                    await webApiDbContext.Database.EnsureCreatedAsync();
+
+                    await webApiDbContext.Credito.AddAsync(creditoTobeDeleted);
+                    await webApiDbContext.SaveChangesAsync();
+                }
+            }
+
+            var httpClient = _factory.CreateClient();
+            string urlFormatted = url.Replace("{accountId}", accountId.ToString());
+
+            //Act
+            var responseMessage = await httpClient.DeleteAsync(urlFormatted);
+            var result = await responseMessage.Content.ReadAsStringAsync();
 
             //Assert
             Assert.NotNull(result);
@@ -195,15 +259,14 @@ namespace WebApi.InMemory.IntegrationTest.Integration.WebApi.UseCases
             Assert.Equal("utf-8", responseMessage.Content.Headers.ContentType!.CharSet);
             Assert.True(responseMessage.IsSuccessStatusCode);
             Assert.Equal(HttpStatusCode.OK, responseMessage.StatusCode);
-            Assert.Equal(JsonConvert.SerializeObject(creditoPost), JsonConvert.SerializeObject(json));
         }
 
         [Theory]
-        [InlineData("/credit", "3fa85f64-5717-4562-b3fc-2c963f66afb7")]
+        [InlineData("/credit/{accountId}", "3fa85f64-5717-4562-b3fc-2c963f66afb7")]
         public async void Delete_AttemptingDeletingTransactionNotFound_ReturnSuccessMessage(string url, Guid accountId)
         {
             //Arrange
-            var creditoPost = new Credito()
+            var creditoTobeDeleted = new Credito()
             {
                 Id = accountId,
                 AccountTobeCredited = 1001,
@@ -211,22 +274,16 @@ namespace WebApi.InMemory.IntegrationTest.Integration.WebApi.UseCases
             };
 
             var httpClient = _factory.CreateClient();
+            string urlFormatted = url.Replace("{accountId}", accountId.ToString());
 
             //Act
-            var responseMessage = await httpClient.PostAsJsonAsync(url, creditoPost);
+            var responseMessage = await httpClient.DeleteAsync(urlFormatted);
             var result = await responseMessage.Content.ReadAsStringAsync();
-            var responseAsJson = await responseMessage.Content.ReadFromJsonAsync<Credito>();
-
-            var json = JsonConvert.DeserializeObject<Credito>(result);
 
             //Assert
-            Assert.NotNull(result);
-            Assert.Equal("application/json", responseMessage.Content.Headers.ContentType!.MediaType);
-            Assert.Equal("utf-8", responseMessage.Content.Headers.ContentType!.CharSet);
-            Assert.True(responseMessage.IsSuccessStatusCode);
+            Assert.Empty(result);         
+            Assert.True(!responseMessage.IsSuccessStatusCode);
             Assert.Equal(HttpStatusCode.NotFound, responseMessage.StatusCode);
-            Assert.Equal(JsonConvert.SerializeObject(creditoPost), JsonConvert.SerializeObject(json));
-            Assert.Equal(JsonConvert.SerializeObject(creditoPost), JsonConvert.SerializeObject(json));
         }
     }
 }
