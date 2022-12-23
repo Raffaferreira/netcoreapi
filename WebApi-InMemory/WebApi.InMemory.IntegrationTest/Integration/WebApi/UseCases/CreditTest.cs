@@ -14,15 +14,16 @@ namespace WebApi.InMemory.IntegrationTest.Integration.WebApi.UseCases
         public CreditTest(CustomWebApiApplicationFactory<Program> factory) : base(factory)
         { }
 
+
         [Theory]
         [InlineData("/credit")]
         public async void Get_TransactionsFromSracth_ReturnSuccess_Content(string url)
         {
             //Arrange
-            var httpClient = _factory.CreateClient();
+            //var httpClient = _factory.CreateClient();
 
             //Act
-            var responseTransactions = await httpClient.GetFromJsonAsync<IEnumerable<Credito>>(url);
+            var responseTransactions = await _httpclient.GetFromJsonAsync<IEnumerable<Credito>>(url);
 
             //Assert
             Assert.Empty(responseTransactions);
@@ -48,10 +49,10 @@ namespace WebApi.InMemory.IntegrationTest.Integration.WebApi.UseCases
                 }
             }
 
-            var httpClient = _factory.CreateClient();
+            //var httpClient = _factory.CreateClient();
 
             //Act
-            var responseTransactions = await httpClient.GetFromJsonAsync<IEnumerable<Credito>>(url);
+            var responseTransactions = await _httpclient.GetFromJsonAsync<IEnumerable<Credito>>(url);
 
             //Assert
             Assert.NotEmpty(responseTransactions);
@@ -83,11 +84,11 @@ namespace WebApi.InMemory.IntegrationTest.Integration.WebApi.UseCases
                 }
             }
 
-            var httpClient = _factory.CreateClient();
+            //var httpClient = _factory.CreateClient();
             string urlFormatted = url.Replace("{accountId}", accountId.ToString());
 
             //Act
-            var responseMessage = await httpClient.GetAsync(urlFormatted);
+            var responseMessage = await _httpclient.GetAsync(urlFormatted);
             var jsonAsResult = await responseMessage.Content.ReadFromJsonAsync<Credito>();
 
             //Assert
@@ -109,10 +110,10 @@ namespace WebApi.InMemory.IntegrationTest.Integration.WebApi.UseCases
                 Value = 15.00M
             };
 
-            var httpClient = _factory.CreateClient();
+            //var httpClient = _factory.CreateClient();
 
             //Act
-            var responseMessage = await httpClient.GetAsync(url.Replace("{accountId}", accountId.ToString()));
+            var responseMessage = await _httpclient.GetAsync(url.Replace("{accountId}", accountId.ToString()));
             var jsonAsResult = await responseMessage.Content.ReadAsStringAsync();
 
             //Assert
@@ -132,10 +133,10 @@ namespace WebApi.InMemory.IntegrationTest.Integration.WebApi.UseCases
                 Value = 15.00M
             };
 
-            var httpClient = _factory.CreateClient();
+            //var httpClient = _factory.CreateClient();
 
             //Act
-            var responseMessage = await httpClient.PostAsJsonAsync(url, creditoPost);
+            var responseMessage = await _httpclient.PostAsJsonAsync(url, creditoPost);
             var responseAsJson = await responseMessage.Content.ReadFromJsonAsync<Credito>();
 
             //Assert
@@ -179,11 +180,11 @@ namespace WebApi.InMemory.IntegrationTest.Integration.WebApi.UseCases
                 }
             }
 
-            var httpClient = _factory.CreateClient();
+            //var httpClient = _factory.CreateClient();
             string urlFormatted = url.Replace("{accountId}", accountId.ToString());
 
             //Act
-            var responseMessage = await httpClient.PutAsJsonAsync(urlFormatted, creditoUpdated);
+            var responseMessage = await _httpclient.PutAsJsonAsync(urlFormatted, creditoUpdated);
             var responseContent = await responseMessage.Content.ReadAsStringAsync();
             var json = JsonConvert.DeserializeObject<Credito>(responseContent);
 
@@ -208,11 +209,11 @@ namespace WebApi.InMemory.IntegrationTest.Integration.WebApi.UseCases
                 Value = 15.00M
             };
 
-            var httpClient = _factory.CreateClient();
+            //var httpClient = _factory.CreateClient();
             string urlFormatted = url.Replace("{accountId}", accountId.ToString());
 
             //Act
-            var responseMessage = await httpClient.PutAsJsonAsync(urlFormatted, creditoNotStored);
+            var responseMessage = await _httpclient.PutAsJsonAsync(urlFormatted, creditoNotStored);
             var responseContent = await responseMessage.Content.ReadAsStringAsync();
             var json = JsonConvert.DeserializeObject<Credito>(responseContent);
 
@@ -246,11 +247,11 @@ namespace WebApi.InMemory.IntegrationTest.Integration.WebApi.UseCases
                 }
             }
 
-            var httpClient = _factory.CreateClient();
+            //var httpClient = _factory.CreateClient();
             string urlFormatted = url.Replace("{accountId}", accountId.ToString());
 
             //Act
-            var responseMessage = await httpClient.DeleteAsync(urlFormatted);
+            var responseMessage = await _httpclient.DeleteAsync(urlFormatted);
             var result = await responseMessage.Content.ReadAsStringAsync();
 
             //Assert
@@ -273,11 +274,11 @@ namespace WebApi.InMemory.IntegrationTest.Integration.WebApi.UseCases
                 Value = 15.00M
             };
 
-            var httpClient = _factory.CreateClient();
+            //var httpClient = _factory.CreateClient();
             string urlFormatted = url.Replace("{accountId}", accountId.ToString());
 
             //Act
-            var responseMessage = await httpClient.DeleteAsync(urlFormatted);
+            var responseMessage = await _httpclient.DeleteAsync(urlFormatted);
             var result = await responseMessage.Content.ReadAsStringAsync();
 
             //Assert

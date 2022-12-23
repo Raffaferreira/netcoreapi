@@ -6,12 +6,12 @@ namespace WebApi.InMemory.IntegrationTest.Integration
     public abstract class IntegrationTesting : IClassFixture<CustomWebApiApplicationFactory<Program>> 
     {
         protected readonly CustomWebApiApplicationFactory<Program> _factory;
-        protected readonly HttpClient _client;
+        protected readonly HttpClient _httpclient;
 
         public IntegrationTesting(CustomWebApiApplicationFactory<Program> factory)
         {
             _factory = factory;
-            _client = _factory.CreateClient();
+            _httpclient = _factory.CreateDefaultClient();
         }
     }
 }
