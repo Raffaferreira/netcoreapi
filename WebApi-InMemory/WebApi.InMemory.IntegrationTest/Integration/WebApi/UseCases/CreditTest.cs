@@ -1,10 +1,10 @@
-﻿using Domain.Models;
-using Infrastructure.Context;
+﻿using Infrastructure.Context;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Presentation;
 using System.Net;
 using System.Net.Http.Json;
+using WebApi.InMemory.IntegrationTest.Integration.Models;
 
 namespace WebApi.InMemory.IntegrationTest.Integration.WebApi.UseCases
 {
@@ -19,7 +19,7 @@ namespace WebApi.InMemory.IntegrationTest.Integration.WebApi.UseCases
                 {
                     webApiDbContext.Database.EnsureCreatedAsync();
 
-                    webApiDbContext.Credito.AddAsync(new Credito { Id = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6"), Value = 5865.00M, AccountTobeCredited = 0011 });
+                    webApiDbContext.Credito.AddAsync(new Domain.Models.Credito { Id = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6"), Value = 5865.00M, AccountTobeCredited = 0011 });
                     webApiDbContext.SaveChangesAsync();
                 }
             }

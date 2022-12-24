@@ -1,5 +1,4 @@
 ﻿using Domain.Interfaces.Repository;
-using Domain.Models;
 using Infrastructure.Context;
 using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication;
