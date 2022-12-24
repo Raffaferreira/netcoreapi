@@ -1,6 +1,5 @@
 ﻿using Domain.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Principal;
 
 namespace Infrastructure.Context
 {

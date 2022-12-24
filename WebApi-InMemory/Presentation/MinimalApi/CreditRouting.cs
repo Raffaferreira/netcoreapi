@@ -42,6 +42,20 @@ namespace Presentation.MinimalApi
                 return Results.NoContent();
             });
 
+            app.MapMethods("/credit/{accountId}", new string[] { "PATCH" }, async (Guid accountId, Credito crdt, WebApiDbContext db) =>
+            {
+                var credito = await db.Credito.FindAsync(accountId);
+
+                if (credito is null) return Results.NotFound();
+
+                credito.AccountTobeCredited = crdt.AccountTobeCredited;
+                credito.Value = crdt.Value;
+
+                await db.SaveChangesAsync();
+
+                return Results.NoContent();
+            });
+
             app.MapDelete("/credit/{accountId}", async (Guid accountId, WebApiDbContext db) =>
             {
                 if (await db.Credito.FindAsync(accountId) is Credito credito)
