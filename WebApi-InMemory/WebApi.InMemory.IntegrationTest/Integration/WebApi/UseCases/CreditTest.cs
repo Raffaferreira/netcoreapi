@@ -25,37 +25,15 @@ namespace WebApi.InMemory.IntegrationTest.Integration.WebApi.UseCases
             }
         }
 
-
-        [Theory]
+        [Fact]
         [Trait("Category", "GET")]
-        [InlineData("/credit")]
-        public async void Get_TransactionsFromSracth_ReturnSuccessContent(string url)
+        public async void Get_AllCreditsStored_ReturnSuccessContent()
         {
-            //Arrange
+            var responseCredits = await _httpclient.GetFromJsonAsync<IEnumerable<Credito>>("/credit");
 
-            //Act
-            var responseTransactions = await _httpclient.GetFromJsonAsync<IEnumerable<Credito>>(url);
-
-            //Assert
-            Assert.NotEmpty(responseTransactions);
-            Assert.NotNull(responseTransactions);
-            Assert.True(responseTransactions!.Count() >= 0);
-        }
-
-        [Theory]
-        [Trait("Category", "GET")]
-        [InlineData("/credit")]
-        public async void Get_Transactions_ReturnSuccessAndContent(string url)
-        {
-            //Arrange
-
-            //Act
-            var responseTransactions = await _httpclient.GetFromJsonAsync<IEnumerable<Credito>>(url);
-
-            //Assert
-            Assert.NotEmpty(responseTransactions);
-            Assert.NotNull(responseTransactions);
-            Assert.True(responseTransactions!.Count() >= 0);
+            Assert.NotEmpty(responseCredits);
+            Assert.NotNull(responseCredits);
+            Assert.True(responseCredits!.Count() >= 0);
         }
 
         [Theory]
