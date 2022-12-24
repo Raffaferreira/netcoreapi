@@ -7,6 +7,7 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Presentation.Dependencies;
 using System.Reflection;
 using System.Text;
 using System.Text.Json;
@@ -28,6 +29,10 @@ namespace WebApi.Dependencies.Startup
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.SwaggerDocumentation();
+            builder.Configuration.GetConnectionString("SqliteConnectionString");
+
+            builder.Services.ConfigureOptions<ApplicationOptionsConfiguration>();
+            //builder.Services.Configure<ApplicationSetup>(builder.Configuration.GetSection(nameof(ApplicationSetup)));
 
             builder.Services.AddDbContext<WebApiDbContext>(options => options.UseInMemoryDatabase(databaseName: "WebApi"));
 
