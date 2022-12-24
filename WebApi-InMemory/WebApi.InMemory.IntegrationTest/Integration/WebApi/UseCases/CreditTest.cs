@@ -8,48 +8,30 @@ using System.Net.Http.Json;
 
 namespace WebApi.InMemory.IntegrationTest.Integration.WebApi.UseCases
 {
-    [Trait("Credit Api - Integration", "Integration")]
     public class CreditTest : IntegrationTesting
     {
         public CreditTest(CustomWebApiApplicationFactory<Program> factory) : base(factory)
-        { }
-
-
-        [Theory]
-        [InlineData("/credit")]
-        public async void Get_TransactionsFromSracth_ReturnSuccess_Content(string url)
         {
-            //Arrange
-            //var httpClient = _factory.CreateClient();
-
-            //Act
-            var responseTransactions = await _httpclient.GetFromJsonAsync<IEnumerable<Credito>>(url);
-
-            //Assert
-            Assert.Empty(responseTransactions);
-            Assert.NotNull(responseTransactions);
-            Assert.True(responseTransactions!.Count() >= 0);
-        }
-
-        [Theory]
-        [InlineData("/credit")]
-        public async void Get_Transactions_ReturnSuccessAndContent(string url)
-        {
-            //Arrange
             using (var scope = _factory.Services.CreateScope())
             {
                 var provider = scope.ServiceProvider;
                 using (var webApiDbContext = provider.GetRequiredService<WebApiDbContext>())
                 {
-                    await webApiDbContext.Database.EnsureCreatedAsync();
+                    webApiDbContext.Database.EnsureCreatedAsync();
 
-                    await webApiDbContext.Credito.AddAsync(new Credito { Id = Guid.NewGuid(), Value = 5865.00M, AccountTobeCredited = 0011 });
-                    await webApiDbContext.Credito.AddAsync(new Credito { Id = Guid.NewGuid(), Value = 7270.20M, AccountTobeCredited = 0012 });
-                    await webApiDbContext.SaveChangesAsync();
+                    webApiDbContext.Credito.AddAsync(new Credito { Id = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6"), Value = 5865.00M, AccountTobeCredited = 0011 });
+                    webApiDbContext.SaveChangesAsync();
                 }
             }
+        }
 
-            //var httpClient = _factory.CreateClient();
+
+        [Theory]
+        [Trait("Category", "GET")]
+        [InlineData("/credit")]
+        public async void Get_TransactionsFromSracth_ReturnSuccessContent(string url)
+        {
+            //Arrange
 
             //Act
             var responseTransactions = await _httpclient.GetFromJsonAsync<IEnumerable<Credito>>(url);
@@ -61,30 +43,34 @@ namespace WebApi.InMemory.IntegrationTest.Integration.WebApi.UseCases
         }
 
         [Theory]
+        [Trait("Category", "GET")]
+        [InlineData("/credit")]
+        public async void Get_Transactions_ReturnSuccessAndContent(string url)
+        {
+            //Arrange
+
+            //Act
+            var responseTransactions = await _httpclient.GetFromJsonAsync<IEnumerable<Credito>>(url);
+
+            //Assert
+            Assert.NotEmpty(responseTransactions);
+            Assert.NotNull(responseTransactions);
+            Assert.True(responseTransactions!.Count() >= 0);
+        }
+
+        [Theory]
+        [Trait("Category", "GET")]
         [InlineData("/credit/{accountId}", "3fa85f64-5717-4562-b3fc-2c963f66afa6")]
-        public async void Get_TransactionByIdAccountNumber_ReturnSuccessObject(string url, Guid accountId)
+        public async void Get_CreditByIdAccountNumber_ReturnSuccessObject(string url, Guid accountId)
         {
             //Arrange
             var credito = new Credito()
             {
                 Id = accountId,
-                AccountTobeCredited = 1001,
+                AccountTobeCredited = 0011,
                 Value = 15.00M
             };
 
-            using (var scope = _factory.Services.CreateScope())
-            {
-                var provider = scope.ServiceProvider;
-                using (var webApiDbContext = provider.GetRequiredService<WebApiDbContext>())
-                {
-                    await webApiDbContext.Database.EnsureCreatedAsync();
-
-                    await webApiDbContext.Credito.AddAsync(credito);
-                    await webApiDbContext.SaveChangesAsync();
-                }
-            }
-
-            //var httpClient = _factory.CreateClient();
             string urlFormatted = url.Replace("{accountId}", accountId.ToString());
 
             //Act
@@ -98,19 +84,12 @@ namespace WebApi.InMemory.IntegrationTest.Integration.WebApi.UseCases
             Assert.Equal(credito, credito);
         }
 
+        [Trait("Category", "GET")]
         [Theory]
-        [InlineData("/credit/{accountId}", "3fa85f64-5717-4562-b3fc-2c963f66afa6")]
-        public async void Get_NonTransactionByAccountNumber_ReturnMessageNotFound(string url, Guid accountId)
+        [InlineData("/credit/{accountId}", "b7090e5c-59b7-49ea-9d50-94963d309ef2")]
+        public async void Get_NonExistentCreditByAccountNumber_ReturnMessageNotFound(string url, Guid accountId)
         {
             //Arrange
-            var credito = new Credito()
-            {
-                Id = accountId,
-                AccountTobeCredited = 1001,
-                Value = 15.00M
-            };
-
-            //var httpClient = _factory.CreateClient();
 
             //Act
             var responseMessage = await _httpclient.GetAsync(url.Replace("{accountId}", accountId.ToString()));
@@ -121,22 +100,21 @@ namespace WebApi.InMemory.IntegrationTest.Integration.WebApi.UseCases
             Assert.Equal(HttpStatusCode.NotFound, responseMessage.StatusCode);
         }
 
+        [Trait("Category", "POST")]
         [Theory]
-        [InlineData("/credit", "3fa85f64-5717-4562-b3fc-2c963f66afa6")]
+        [InlineData("/credit", "89945b29-357a-4c3f-a090-5442212dfd3e")]
         public async void Post_NewTransaction_ReturnSuccessMessage(string url, Guid accountId)
         {
             //Arrange
-            var creditoPost = new Credito()
+            var newCredit = new Credito()
             {
                 Id = accountId,
-                AccountTobeCredited = 1001,
-                Value = 15.00M
+                AccountTobeCredited = 0012,
+                Value = 2650.80M
             };
 
-            //var httpClient = _factory.CreateClient();
-
             //Act
-            var responseMessage = await _httpclient.PostAsJsonAsync(url, creditoPost);
+            var responseMessage = await _httpclient.PostAsJsonAsync(url, newCredit);
             var responseAsJson = await responseMessage.Content.ReadFromJsonAsync<Credito>();
 
             //Assert
@@ -145,42 +123,22 @@ namespace WebApi.InMemory.IntegrationTest.Integration.WebApi.UseCases
             Assert.Equal("utf-8", responseMessage.Content.Headers.ContentType!.CharSet);
             Assert.True(responseMessage.IsSuccessStatusCode);
             Assert.Equal(HttpStatusCode.Created, responseMessage.StatusCode);
-            Assert.Equal(JsonConvert.SerializeObject(creditoPost), JsonConvert.SerializeObject(responseAsJson));
+            Assert.Equal(JsonConvert.SerializeObject(newCredit), JsonConvert.SerializeObject(responseAsJson));
         }
 
-
+        [Trait("Category", "PUT")]
         [Theory]
         [InlineData("/credit/{accountId}", "3fa85f64-5717-4562-b3fc-2c963f66afa6")]
         public async void Put_UpdateTransactionByIdAccountNumber_ReturnSuccessMessage(string url, Guid accountId)
         {
             //Arrange
-            var creditoStored = new Credito()
-            {
-                Id = accountId,
-                AccountTobeCredited = 1001,
-                Value = 15.00M
-            };
-
             var creditoUpdated = new Credito()
             {
                 Id = accountId,
-                AccountTobeCredited = 1001,
+                AccountTobeCredited = 0011,
                 Value = 18.00M
             };
 
-            using (var scope = _factory.Services.CreateScope())
-            {
-                var provider = scope.ServiceProvider;
-                using (var webApiDbContext = provider.GetRequiredService<WebApiDbContext>())
-                {
-                    await webApiDbContext.Database.EnsureCreatedAsync();
-
-                    await webApiDbContext.Credito.AddAsync(creditoStored);
-                    await webApiDbContext.SaveChangesAsync();
-                }
-            }
-
-            //var httpClient = _factory.CreateClient();
             string urlFormatted = url.Replace("{accountId}", accountId.ToString());
 
             //Act
@@ -197,19 +155,19 @@ namespace WebApi.InMemory.IntegrationTest.Integration.WebApi.UseCases
             Assert.Equal(HttpStatusCode.OK, responseMessage.StatusCode);
         }
 
+        [Trait("Category", "PUT")]
         [Theory]
-        [InlineData("/credit/{accountId}", "3fa85f64-5717-4562-b3fc-2c963f66afa6")]
+        [InlineData("/credit/{accountId}", "3fa85f64-5717-4562-b3fc-2c963f66afb7")]
         public async void Put_UpdateNonExistentCredit_ReturnMessageNoContent(string url, Guid accountId)
         {
             //Arrange
             var creditoNotStored = new Credito()
             {
                 Id = accountId,
-                AccountTobeCredited = 1001,
+                AccountTobeCredited = 0013,
                 Value = 15.00M
             };
 
-            //var httpClient = _factory.CreateClient();
             string urlFormatted = url.Replace("{accountId}", accountId.ToString());
 
             //Act
@@ -223,6 +181,7 @@ namespace WebApi.InMemory.IntegrationTest.Integration.WebApi.UseCases
             Assert.Equal(HttpStatusCode.NoContent, responseMessage.StatusCode);
         }
 
+        [Trait("Category", "DELETE")]
         [Theory]
         [InlineData("/credit/{accountId}", "3fa85f64-5717-4562-b3fc-2c963f66afa6")]
         public async void Delete_TransactionByAccountId_ReturnSuccessMessage(string url, Guid accountId)
@@ -231,23 +190,10 @@ namespace WebApi.InMemory.IntegrationTest.Integration.WebApi.UseCases
             var creditoTobeDeleted = new Credito()
             {
                 Id = accountId,
-                AccountTobeCredited = 1001,
+                AccountTobeCredited = 0011,
                 Value = 15.00M
             };
-
-            using (var scope = _factory.Services.CreateScope())
-            {
-                var provider = scope.ServiceProvider;
-                using (var webApiDbContext = provider.GetRequiredService<WebApiDbContext>())
-                {
-                    await webApiDbContext.Database.EnsureCreatedAsync();
-
-                    await webApiDbContext.Credito.AddAsync(creditoTobeDeleted);
-                    await webApiDbContext.SaveChangesAsync();
-                }
-            }
-
-            //var httpClient = _factory.CreateClient();
+                
             string urlFormatted = url.Replace("{accountId}", accountId.ToString());
 
             //Act
@@ -262,6 +208,7 @@ namespace WebApi.InMemory.IntegrationTest.Integration.WebApi.UseCases
             Assert.Equal(HttpStatusCode.OK, responseMessage.StatusCode);
         }
 
+        [Trait("Category", "DELETE")]
         [Theory]
         [InlineData("/credit/{accountId}", "3fa85f64-5717-4562-b3fc-2c963f66afb7")]
         public async void Delete_AttemptingDeletingTransactionNotFound_ReturnSuccessMessage(string url, Guid accountId)
@@ -270,11 +217,10 @@ namespace WebApi.InMemory.IntegrationTest.Integration.WebApi.UseCases
             var creditoTobeDeleted = new Credito()
             {
                 Id = accountId,
-                AccountTobeCredited = 1001,
+                AccountTobeCredited = 0011,
                 Value = 15.00M
             };
 
-            //var httpClient = _factory.CreateClient();
             string urlFormatted = url.Replace("{accountId}", accountId.ToString());
 
             //Act

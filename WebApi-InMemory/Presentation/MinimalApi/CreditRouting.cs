@@ -16,8 +16,8 @@ namespace Presentation.MinimalApi
             app.MapGet("/credit/{accountId}", async (Guid accountId, WebApiDbContext db) =>
             {
                 return await db.Credito.FindAsync(accountId)
-                is Credito dbt ?
-                Results.Ok(dbt) : Results.NotFound();
+                is Credito credito ?
+                Results.Ok(credito) : Results.NotFound();
             });
 
             app.MapPost("/credit", async (Credito crdt, WebApiDbContext db) =>
@@ -32,14 +32,13 @@ namespace Presentation.MinimalApi
             {
                 var credito = await db.Credito.FindAsync(accountId);
 
-                if (credito is null) return Results.NotFound();
+                if (credito is null) return Results.NoContent();
 
-                credito.AccountTobeCredited = crdt.AccountTobeCredited;
                 credito.Value = crdt.Value;
 
                 await db.SaveChangesAsync();
 
-                return Results.NoContent();
+                return Results.Ok(credito);
             });
 
             app.MapMethods("/credit/{accountId}", new string[] { "PATCH" }, async (Guid accountId, Credito crdt, WebApiDbContext db) =>

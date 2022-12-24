@@ -49,12 +49,12 @@ namespace Infrastructure.Repositories
 
         public async Task<Customer> GetCustomerById(Guid id)
         {
-            return _db.Customer.Where(x => x.Id == id).FirstOrDefault()!;
+            return await Task.FromResult(_db.Customer.Where(x => x.Id == id).First());
         }
 
         public async Task<List<Customer>> GetCustomers()
         {
-            return _db.Customer.ToList();
+            return await Task.FromResult(_db.Customer.ToList());
         }
 
         public async Task<Customer> UpdateCustomer(Customer customer)

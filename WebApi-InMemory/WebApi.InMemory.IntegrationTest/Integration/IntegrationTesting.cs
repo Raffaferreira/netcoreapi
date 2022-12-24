@@ -11,7 +11,7 @@ namespace WebApi.InMemory.IntegrationTest.Integration
         public IntegrationTesting(CustomWebApiApplicationFactory<Program> factory)
         {
             _factory = factory;
-            _httpclient = _factory.CreateDefaultClient();
+            _httpclient = _factory.CreateClient();
         }
     }
 }

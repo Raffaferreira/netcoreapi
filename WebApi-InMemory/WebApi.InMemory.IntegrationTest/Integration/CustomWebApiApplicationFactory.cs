@@ -1,4 +1,5 @@
 ﻿using Domain.Interfaces.Repository;
+using Domain.Models;
 using Infrastructure.Context;
 using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication;
@@ -12,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Presentation;
+using System.Data.Common;
 
 namespace WebApi.InMemory.IntegrationTest.Integration
 {
@@ -49,8 +51,11 @@ namespace WebApi.InMemory.IntegrationTest.Integration
                     services.Remove(dbContextDescriptor!);
                 }
 
-                //var dbConnectionDescriptor = services.SingleOrDefault(d => d.ServiceType == typeof(DbConnection));
-                //services.Remove(dbConnectionDescriptor!);
+                var dbConnectionDescriptor = services.SingleOrDefault(d => d.ServiceType == typeof(DbConnection));
+                if (dbContextDescriptor != null)
+                {
+                    services.Remove(dbConnectionDescriptor!);
+                }
 
                 services.RemoveAll(typeof(DbContextOptions<WebApiDbContext>));
                 services.AddDbContext<WebApiDbContext>(options => options.UseInMemoryDatabase("WebApi", root));
