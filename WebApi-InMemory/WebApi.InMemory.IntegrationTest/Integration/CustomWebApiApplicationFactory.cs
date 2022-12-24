@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Presentation;
 using System.Data.Common;
+using WebApi.InMemory.IntegrationTest.Integration.Security;
 
 namespace WebApi.InMemory.IntegrationTest.Integration
 {

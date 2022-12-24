@@ -1,21 +1,16 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Text;
 using System.Text.Encodings.Web;
-using System.Threading.Tasks;
 
-namespace WebApi.InMemory.IntegrationTest.Integration
+namespace WebApi.InMemory.IntegrationTest.Integration.Security
 {
     public class IntegrationTestAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
     {
         public IntegrationTestAuthenticationHandler(IOptionsMonitor<AuthenticationSchemeOptions> options,
             ILoggerFactory logger,
-            UrlEncoder encoder, 
+            UrlEncoder encoder,
             ISystemClock clock) : base(options, logger, encoder, clock)
         {
         }
@@ -27,7 +22,7 @@ namespace WebApi.InMemory.IntegrationTest.Integration
             new Claim(ClaimTypes.NameIdentifier, "IntegrationTest User"),
             new Claim("a-custom-claim", "squirrel 🐿️"),
             };
-            
+
             var identity = new ClaimsIdentity(claims, "IntegrationTest");
             var principal = new ClaimsPrincipal(identity);
             var ticket = new AuthenticationTicket(principal, "IntegrationTest");
