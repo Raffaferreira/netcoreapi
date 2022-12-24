@@ -5,7 +5,7 @@ using System.Net.Http.Json;
 
 namespace WebApi.InMemory.IntegrationTest.Integration.WebApi.UseCases
 {
-    public class DebitTest : IClassFixture<CustomWebApiApplicationFactory<Program>>
+    public class DebitTest : IClassFixture<CustomWebApiApplicationFactory<Program>> //IClassFixture<CustomWebApiApplicationFactory<Program>>
     {
         private readonly CustomWebApiApplicationFactory<Program> _factory;
         private readonly HttpClient _httpClient;

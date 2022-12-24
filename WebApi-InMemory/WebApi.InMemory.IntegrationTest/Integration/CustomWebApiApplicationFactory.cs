@@ -19,12 +19,12 @@ namespace WebApi.InMemory.IntegrationTest.Integration
 {
     public class CustomWebApiApplicationFactory<TProgram> : WebApplicationFactory<TProgram> where TProgram : Program, new()
     {
+        public IConfiguration? Configuration { get; private set; }
+
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
         }
-
-        public IConfiguration? Configuration { get; private set; }
 
         protected override IHost CreateHost(IHostBuilder builder)
         {

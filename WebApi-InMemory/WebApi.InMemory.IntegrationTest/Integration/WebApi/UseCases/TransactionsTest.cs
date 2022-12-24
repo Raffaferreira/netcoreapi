@@ -1,5 +1,8 @@
 using Domain.Models;
+using FluentAssertions;
+using Infrastructure.Context;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Presentation;
 using System.Net;
@@ -7,34 +10,46 @@ using System.Net.Http.Json;
 
 namespace WebApi.InMemory.IntegrationTest.Integration.WebApi.UseCases
 {
-    [Trait("Category", "Integration")]
-    public class TransactionsTest : IClassFixture<WebApplicationFactory<Program>>
+    public class TransactionsTest : IntegrationTesting
     {
-        private readonly WebApplicationFactory<Program> _factory;
-        private readonly HttpClient _httpClient;
-
-        public TransactionsTest(WebApplicationFactory<Program> factory)
+        public TransactionsTest(CustomWebApiApplicationFactory<Program> factory) : base(factory)
         {
-            _factory = factory;
-            _httpClient = _factory.CreateDefaultClient();
+            using (var scope = _factory.Services.CreateScope())
+            {
+                var provider = scope.ServiceProvider;
+                using (var webApiDbContext = provider.GetRequiredService<WebApiDbContext>())
+                {
+                    webApiDbContext.Database.EnsureCreatedAsync();
+
+                    webApiDbContext.Transactions.AddAsync(new Domain.Models.Transactions 
+                    { 
+                        Id = Guid.Parse("48f13781-7213-4ddf-b52a-35987398208f"), 
+                        AccountNumber = 0011,
+                        Balance = 10500.00M,
+                        Credited = 10M,
+                        Debited = 10,
+                        TransactionDate = new DateTimeOffset()
+                    });
+                    webApiDbContext.SaveChangesAsync();
+                }
+            }
+        }
+
+        [Fact]
+        [Trait("Category", "GET")]
+        public async void Get_AllTransactions_ReturnSuccess_Content()
+        {
+            var responseMessage = await _httpclient.GetFromJsonAsync<IEnumerable<Transactions>>("/transactions");
+
+            Assert.NotEmpty(responseMessage);
+            Assert.NotNull(responseMessage);
+            Assert.True(responseMessage!.Count() >= 0);
         }
 
         [Theory]
-        [InlineData("/transactions")]
-        public async void Get_AllTransactions_ReturnSuccess_Content(string url)
-        {
-            var httpClient = _factory.CreateClient();
-
-            var responseMessage = await httpClient.GetAsync(url);
-
-            var result = await responseMessage.Content.ReadAsStringAsync();
-
-            Assert.Equal("Hello World!", result);
-        }
-
-        [Theory]
-        [InlineData("/transactions/{1}")]
-        public async void Get_TransactionByAccountNumber_ReturnSuccessMessage(string url)
+        [Trait("Category", "GET")]
+        [InlineData("/transactions/{transactionId}", "3fa85f64-5717-4562-b3fc-2c963f66afa6")]
+        public async void Get_TransactionByAccountNumber_ReturnSuccessMessage(string url, Guid accountId)
         {
             //Arrange
             var transaction = new Transactions()
@@ -47,18 +62,18 @@ namespace WebApi.InMemory.IntegrationTest.Integration.WebApi.UseCases
                 TransactionDate = new DateTimeOffset()
             };
 
-            var httpClient = _factory.CreateClient();
-
             //Act
-            var responseMessage = await httpClient.GetAsync(url);
-            var result = await responseMessage.Content.ReadAsStringAsync();
+            var responseMessage = await _httpclient.GetAsync(url);
+            var jsonAsResult = await responseMessage.Content.ReadFromJsonAsync<Transactions>();
 
             //Assert
-            Assert.NotNull(result);
-            Assert.IsType<Transactions>(result);
+            Assert.NotNull(responseMessage);
+            Assert.IsType<Transactions>(responseMessage);
             Assert.Equal(HttpStatusCode.OK, responseMessage.StatusCode);
-            Assert.Equal("\"transaction.ToString()\"", result);
-            Assert.Equal(transaction, JsonConvert.DeserializeObject<Transactions>(result));
+            Assert.Equal(jsonAsResult, jsonAsResult);
+            Assert.Equal(transaction, jsonAsResult);
+
+            jsonAsResult!.Balance.Should().Be(5000.00M);
         }
 
         [Theory]
