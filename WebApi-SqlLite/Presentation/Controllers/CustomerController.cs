@@ -11,8 +11,10 @@ using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 namespace Presentation.Controllers
 {
     [ApiController]
+    [ApiVersion("1.0")]
     [Route("api/[controller]")]
     [Produces("application/json")]
+    [Route("api/v{version:apiVersion}/[controller]")]  
     public class CustomerController : ControllerBase
     {
         [HttpGet]

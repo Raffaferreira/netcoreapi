@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Presentation.Controllers.Base;
 using Presentation.ViewModel;
 //using System.Web.Http;
 using FromBodyAttribute = Microsoft.AspNetCore.Mvc.FromBodyAttribute;
@@ -8,17 +10,21 @@ using HttpPostAttribute = Microsoft.AspNetCore.Mvc.HttpPostAttribute;
 using HttpPutAttribute = Microsoft.AspNetCore.Mvc.HttpPutAttribute;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
-namespace Presentation.Controllers
+namespace Presentation.Controllers.v1
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [ApiVersion("1.0")]
     [Produces("application/json")]
-    public class CustomerController : ControllerBase
+    [Route("api/v{version:apiVersion}/[controller]")]
+    public class CustomerController : BaseController
     {
+        [AllowAnonymous]
         [HttpGet]
-        public async Task<ActionResult<string>> Get()
+        [Authorize(Roles = "admin")]
+        public async Task<ActionResult<CustomerResponse>> Get()
         {
-            return await Task.FromResult<string>("value1");
+            return await Mediator.Send(new CustomerRequest());
+
         }
 
         // GET: api/values/5
@@ -29,24 +35,26 @@ namespace Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<string>> Get(int id)
         {
-            return await Task.FromResult<string>("value1");
+            return await Task.FromResult("value1");
         }
 
         // POST: api/values
         [HttpPost]
         [Route("{customer}")]
+        [Authorize(Roles = "user")]
         public async Task<ActionResult<Guid>> Post([FromBody] CustomerRequest customer)
         {
 
-            return await Task.FromResult<Guid>(Guid.NewGuid());
+            return await Task.FromResult(Guid.NewGuid());
         }
 
         // PUT: api/values/5
         [HttpPut]
         [Route("{id}")]
+        [Authorize(Roles = "admin,user")]
         public async Task<ActionResult<Guid>> Put(int id, [FromBody] string value)
         {
-            return await Task.FromResult<Guid>(Guid.NewGuid());
+            return await Task.FromResult(Guid.NewGuid());
         }
 
         // DELETE: api/values/5
@@ -54,7 +62,7 @@ namespace Presentation.Controllers
         [Route("{id}")]
         public async Task<ActionResult<Guid>> Delete(int id)
         {
-            return await Task.FromResult<Guid>(Guid.NewGuid());
+            return await Task.FromResult(Guid.NewGuid());
         }
     }
 }

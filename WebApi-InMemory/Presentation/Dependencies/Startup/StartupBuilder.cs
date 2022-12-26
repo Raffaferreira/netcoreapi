@@ -7,10 +7,18 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Presentation;
 using Presentation.Dependencies;
 using System.Reflection;
 using System.Text;
 using System.Text.Json;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc.Versioning;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace WebApi.Dependencies.Startup
 {
@@ -24,22 +32,51 @@ namespace WebApi.Dependencies.Startup
         /// </summary>
         /// <param name="builder"></param>
         public static void ConfigurationStartupBuilder(this WebApplicationBuilder builder)
-        {     
+        {
             builder.Services.AddControllers();
+            builder.Services.AddApiVersioning(p =>
+            {
+                p.DefaultApiVersion = new ApiVersion(1, 0);
+                p.ReportApiVersions = true;
+                p.AssumeDefaultVersionWhenUnspecified = true;
+                p.ApiVersionReader = ApiVersionReader.Combine(new UrlSegmentApiVersionReader(),
+                                     new HeaderApiVersionReader("x-api-version"),
+                                     new MediaTypeApiVersionReader("x-api-version"));
+            });
+
+            builder.Services.AddVersionedApiExplorer(setup =>
+            {
+                setup.GroupNameFormat = "'v'VVV";
+                setup.SubstituteApiVersionInUrl = true;
+            });
+
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.SwaggerDocumentation();
-            builder.Configuration.GetConnectionString("SqliteConnectionString");
+
+            //builder.Configuration.GetConnectionString("SqliteConnectionString");
 
             builder.Services.ConfigureOptions<ApplicationOptionsConfiguration>();
+            //builder.Services.ConfigureOptions<ConfigureSwaggerOptions>();
             //builder.Services.Configure<ApplicationSetup>(builder.Configuration.GetSection(nameof(ApplicationSetup)));
 
+            builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
             builder.Services.AddDbContext<WebApiDbContext>(options => options.UseInMemoryDatabase(databaseName: "WebApi"));
+ 
 
-            builder.Services.AddAuthorization();
-            builder.Services.AddAuthentication();   
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddHealthChecks();        
+            builder.Services.AddHealthChecks();
+            builder.Services.AddCors();
+            builder.Services.AddMvc(config =>
+            {
+                var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+                config.Filters.Add(new AuthorizeFilter(policy));
+            });
+
+            builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("user", policy => policy.RequireClaim(ClaimTypes.Role, "user"));
+                options.AddPolicy("admin", policy => policy.RequireClaim(ClaimTypes.Role, "admin"));
+            });
 
             builder.Services.AddAuthentication(options =>
             {
@@ -52,9 +89,9 @@ namespace WebApi.Dependencies.Startup
                 x.SaveToken = true;
                 x.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidIssuer = builder.Configuration["TokenConfigurations:Issuer"],
-                    ValidAudience = builder.Configuration["TokenConfigurations:Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["TokenConfigurations:SecretJWTKey"])),
+                    ValidIssuer = builder.Configuration["ApplicationSetup:TokenConfigurations:Issuer"],
+                    ValidAudience = builder.Configuration["ApplicationSetup:TokenConfigurations:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["ApplicationSetup:TokenConfigurations:SecretJWTKey"])),
                     ValidateIssuerSigningKey = true,
                     ValidateIssuer = true,
                     ValidateAudience = true,

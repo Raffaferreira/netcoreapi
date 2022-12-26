@@ -1,12 +1,8 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Domain.Models;
+using Microsoft.Extensions.Options;
 
 namespace Presentation.Dependencies
 {
-    public class ApplicationSetup 
-    {
-        public string? DisplayMessage { get; set; }
-    }
-
     public class ApplicationOptionsConfiguration : IConfigureOptions<ApplicationSetup>
     {
         private readonly IConfiguration _configuration;
