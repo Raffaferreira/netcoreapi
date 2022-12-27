@@ -13,11 +13,11 @@ namespace Presentation.Controllers.v1
     [Route("api/v{version:apiVersion}/authenticate")]
     public class AuthenticateController : ControllerBase
     {
-        private readonly ApplicationOptionsConfiguration _options;
+        private readonly ApplicationSetup _options;
         private readonly TopItemSettings _yearTopItem;
         private readonly TopItemSettings _monthTopItem;
 
-        public AuthenticateController(IOptions<ApplicationOptionsConfiguration> options,
+        public AuthenticateController(IOptions<ApplicationSetup> options,
             IOptionsSnapshot<TopItemSettings> namedOptionsAccessor)
         {
             _options = options.Value;

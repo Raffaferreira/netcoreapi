@@ -6,7 +6,7 @@ namespace Presentation.Controllers.v2
     [ApiController]
     [ApiVersion("2.0", Deprecated = true)]
     [Produces("application/json")]
-    [Route("api/v{version:apiVersion}/[controller]")]
+    [Route("api/v{version:apiVersion}/customer")]
     public class CustomerController : BaseController
     {
         [HttpGet]

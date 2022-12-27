@@ -57,15 +57,15 @@ namespace WebApi.Dependencies.Startup
             //builder.Configuration.GetConnectionString("SqliteConnectionString");
 
             builder.Services.ConfigureOptions<ApplicationOptionsConfiguration>();
+            builder.Services.ConfigureOptions<ConfigureSwaggerOptions>();
             builder.Services.Configure<TopItemSettings>(TopItemSettings.Month,builder.Configuration.GetSection("TopItem:Month"));
             builder.Services.Configure<TopItemSettings>(TopItemSettings.Year,builder.Configuration.GetSection("TopItem:Year"));
-            builder.Services.ConfigureOptions<ConfigureSwaggerOptions>();
-
             //builder.Services.Configure<ApplicationSetup>(builder.Configuration.GetSection(nameof(ApplicationSetup)));
+
 
             builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
             builder.Services.AddDbContext<WebApiDbContext>(options => options.UseInMemoryDatabase(databaseName: "WebApi"));
- 
+
 
             builder.Services.AddHealthChecks();
             builder.Services.AddCors();
@@ -96,9 +96,9 @@ namespace WebApi.Dependencies.Startup
                     ValidAudience = builder.Configuration["ApplicationSetup:TokenConfigurations:Audience"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["ApplicationSetup:TokenConfigurations:SecretJWTKey"])),
                     ValidateIssuerSigningKey = true,
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = false,
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateLifetime = true,
                 };
             }).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options => builder.Configuration.Bind("CookieSettings", options));
 

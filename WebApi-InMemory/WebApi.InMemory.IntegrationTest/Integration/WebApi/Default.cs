@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc.Testing;
 using Presentation;
+using System.ComponentModel;
 
 namespace WebApi.InMemory.IntegrationTest.Integration.WebApi
 {
+    [Category("MyCategoryName")]
     public class Default : IClassFixture<WebApplicationFactory<Program>>
     {
         private readonly WebApplicationFactory<Program> _factory;
