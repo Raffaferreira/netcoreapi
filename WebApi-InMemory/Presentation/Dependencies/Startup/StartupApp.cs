@@ -5,7 +5,10 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 namespace WebApi.Dependencies.Startup
 {
     /// <summary>
-    /// A web application configuration
+    /// A web application configuration, any doubt check the following link: 
+    /// https://code-maze.com/aspnetcore-api-versioning/
+    /// https://dotnetthoughts.net/aspnetcore-api-versioning-with-net-6-minimal-apis/
+    /// https://blog.christian-schou.dk/how-to-use-api-versioning-in-net-core-web-api/
     /// </summary>
     public static class StartupApp
     {
@@ -19,7 +22,7 @@ namespace WebApi.Dependencies.Startup
 
             if (app.Environment.IsDevelopment())
             {
-                app.MapSwagger();
+                //app.MapSwagger();
                 app.UseSwagger();
                 app.UseSwaggerUI(options =>
                 {

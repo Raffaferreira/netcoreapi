@@ -8,7 +8,7 @@ namespace Presentation.Controllers.Base
     [ApiVersion("1.0")]
     public class BaseController : ControllerBase
     {
-        private IMediator _mediator;
+        private IMediator? _mediator;
 
         protected IMediator Mediator
         {
@@ -18,7 +18,7 @@ namespace Presentation.Controllers.Base
             }
         }
 
-        private ISender _mediatorSender;
+        private ISender? _mediatorSender;
 
         protected ISender MediatorSender
         {

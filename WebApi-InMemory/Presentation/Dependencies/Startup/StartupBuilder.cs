@@ -57,7 +57,10 @@ namespace WebApi.Dependencies.Startup
             //builder.Configuration.GetConnectionString("SqliteConnectionString");
 
             builder.Services.ConfigureOptions<ApplicationOptionsConfiguration>();
-            //builder.Services.ConfigureOptions<ConfigureSwaggerOptions>();
+            builder.Services.Configure<TopItemSettings>(TopItemSettings.Month,builder.Configuration.GetSection("TopItem:Month"));
+            builder.Services.Configure<TopItemSettings>(TopItemSettings.Year,builder.Configuration.GetSection("TopItem:Year"));
+            builder.Services.ConfigureOptions<ConfigureSwaggerOptions>();
+
             //builder.Services.Configure<ApplicationSetup>(builder.Configuration.GetSection(nameof(ApplicationSetup)));
 
             builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
@@ -110,23 +113,23 @@ namespace WebApi.Dependencies.Startup
             //builder.Services.AddSwaggerGen();
             builder.Services.AddSwaggerGen(options =>
             {
-                options.SwaggerDoc("v1", new OpenApiInfo
-                {
-                    Version = "v1",
-                    Title = "ToDo API",
-                    Description = "An ASP.NET Core Web API for managing ToDo items",
-                    TermsOfService = new Uri("https://example.com/terms"),
-                    Contact = new OpenApiContact
-                    {
-                        Name = "Example Contact",
-                        Url = new Uri("https://example.com/contact")
-                    },
-                    License = new OpenApiLicense
-                    {
-                        Name = "Example License",
-                        Url = new Uri("https://example.com/license")
-                    }
-                });
+                //options.SwaggerDoc("v1", new OpenApiInfo
+                //{
+                    //Version = "v1",
+                    //Title = "ToDo API",
+                    //Description = "An ASP.NET Core Web API for managing ToDo items",
+                    //TermsOfService = new Uri("https://example.com/terms"),
+                    //Contact = new OpenApiContact
+                    //{
+                    //    Name = "Example Contact",
+                    //    Url = new Uri("https://example.com/contact")
+                    //},
+                    //License = new OpenApiLicense
+                    //{
+                    //    Name = "Example License",
+                    //    Url = new Uri("https://example.com/license")
+                    //}
+                //});
 
                 options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {

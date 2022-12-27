@@ -43,7 +43,7 @@ namespace Presentation.Dependencies
         /// <summary>
         /// Create information about the version of the API
         /// </summary>
-        /// <param name="description"></param>
+        /// <param name="desc"></param>
         /// <returns>Information about the API</returns>
         private OpenApiInfo CreateVersionInfo(
                 ApiVersionDescription desc)
@@ -51,7 +51,19 @@ namespace Presentation.Dependencies
             var info = new OpenApiInfo()
             {
                 Title = ".NET Core (.NET 6) Web API",
-                Version = desc.ApiVersion.ToString()
+                Version = desc.ApiVersion.ToString(),
+                Description = "An ASP.NET Core Web API for managing ToDo items",
+                TermsOfService = new Uri("https://example.com/terms"),
+                Contact = new OpenApiContact
+                {
+                    Name = "Example Contact",
+                    Url = new Uri("https://example.com/contact")
+                },
+                License = new OpenApiLicense
+                {
+                    Name = "Example License",
+                    Url = new Uri("https://example.com/license")
+                }
             };
 
             if (desc.IsDeprecated)

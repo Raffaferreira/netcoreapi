@@ -7,7 +7,7 @@ namespace Presentation.Security
 {
     public class AuthenticationService
     {
-        public UserResponse Authenticate(User user)
+        public UserResponse Authenticate(UserRequest user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes("VGVzdGVzIGNvbSBBU1AuTkVUIDUgZSBKV1Q=");
@@ -34,11 +34,7 @@ namespace Presentation.Security
         }
     }
 
-    public class User
-    {
-        public string? UserName { get; set; }
-        public string? Password { get; set; }
-    }
+    
 
     public class UserResponse
     {

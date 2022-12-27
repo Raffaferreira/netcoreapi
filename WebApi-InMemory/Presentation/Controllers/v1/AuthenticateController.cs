@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using Presentation.Dependencies;
 using Presentation.Security;
 
 namespace Presentation.Controllers.v1
@@ -10,15 +13,22 @@ namespace Presentation.Controllers.v1
     [Route("api/v{version:apiVersion}/authenticate")]
     public class AuthenticateController : ControllerBase
     {
-        public AuthenticateController()
-        {
+        private readonly ApplicationOptionsConfiguration _options;
+        private readonly TopItemSettings _yearTopItem;
+        private readonly TopItemSettings _monthTopItem;
 
+        public AuthenticateController(IOptions<ApplicationOptionsConfiguration> options,
+            IOptionsSnapshot<TopItemSettings> namedOptionsAccessor)
+        {
+            _options = options.Value;
+            _monthTopItem = namedOptionsAccessor.Get(TopItemSettings.Month);
+            _yearTopItem = namedOptionsAccessor.Get(TopItemSettings.Year);
         }
 
         [HttpPost]
         [Route("login")]
         [AllowAnonymous]
-        public ActionResult<UserResponse> Authenticate([FromBody] User model)
+        public ActionResult<UserResponse> Authenticate([FromBody] UserRequest model)
         {
             var service = new AuthenticationService();
             var user = service.Authenticate(model);
