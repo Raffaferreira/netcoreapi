@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Presentation.Security.Requirements;
 
 namespace Presentation.Security.Handlers
 {

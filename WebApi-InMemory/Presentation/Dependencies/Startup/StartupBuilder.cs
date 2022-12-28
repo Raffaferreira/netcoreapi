@@ -22,6 +22,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using Presentation.Security;
 using Presentation.Security.Handlers;
 using Presentation.Security.Middleware;
+using Presentation.Security.Requirements;
 
 namespace WebApi.Dependencies.Startup
 {
@@ -95,9 +96,9 @@ namespace WebApi.Dependencies.Startup
                 {
                     policy.RequireRole(UserRoles.Admin, UserRoles.SysAdmin, UserRoles.Manager, UserRoles.User);
                 });
-                options.AddPolicy("EnableToAll", policy =>
+                options.AddPolicy("EnableToAllClaims", policy =>
                 {
-                    //policy.RequireClaim(ClaimTypes.Role, UserRoles.SysAdmin);
+                    policy.RequireClaim(ClaimTypes.Role, UserRoles.SysAdmin);
                     //policy.RequireClaim(ClaimTypes.Role, UserRoles.Admin);
                     //policy.RequireClaim(ClaimTypes.Role, UserRoles.Manager);
                     //policy.RequireClaim(ClaimTypes.Role, UserRoles.User);

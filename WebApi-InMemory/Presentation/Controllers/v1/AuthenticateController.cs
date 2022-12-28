@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Presentation.Dependencies;
 using Presentation.Security;
+using Presentation.Security.Models;
 
 namespace Presentation.Controllers.v1
 {

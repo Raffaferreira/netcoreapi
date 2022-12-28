@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 
-namespace Presentation.Security.Handlers
+namespace Presentation.Security.Requirements
 {
     public class IsAccountEnabledRequirement : IAuthorizationRequirement
     {

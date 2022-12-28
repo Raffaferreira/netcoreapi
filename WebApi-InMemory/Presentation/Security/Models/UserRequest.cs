@@ -1,4 +1,4 @@
-﻿namespace Presentation.Security
+﻿namespace Presentation.Security.Models
 {
     public class UserRequest
     {
