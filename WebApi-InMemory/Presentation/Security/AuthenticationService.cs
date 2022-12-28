@@ -16,7 +16,8 @@ namespace Presentation.Security
                 Subject = new ClaimsIdentity(new Claim[]
                 {
                     new Claim(ClaimTypes.Name, user.UserName!),
-                    new Claim(ClaimTypes.Role, "admin")
+                    new Claim(ClaimTypes.Role, UserRoles.Admin),
+                    new Claim(ClaimTypes.Expiration, ClaimTypes.Expiration),
                 }),
                 Expires = DateTime.UtcNow.AddMinutes(10),
                 Issuer = "TestingIssuer",

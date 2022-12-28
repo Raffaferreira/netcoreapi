@@ -51,17 +51,27 @@ namespace Presentation.Controllers.v1
 
         [HttpGet]
         [Route("all")]
-        [Authorize(Roles = "user,admin")]
-        public string Employee() => "Usuário e Administrator";
+        [Authorize(Policy = "EnableToAll")]
+        public string AllRoles() => "User, Admin, Manager e SysAdmin";
 
         [HttpGet]
         [Route("user")]
-        [Authorize(Roles = "user")]
+        [Authorize(Policy = "UserOnly")]
         public string Users() => "Usuário";
 
         [HttpGet]
         [Route("admin")]
-        [Authorize(Roles = "admin")]
-        public string Manager() => "Administrator";
+        [Authorize(Policy = "AdminOnly")]
+        public string Adim() => "Administrator";
+
+        [HttpGet]
+        [Route("manager")]
+        [Authorize(Policy = "ManagerOnly")]
+        public string Manager() => "Manager";
+
+        [HttpGet]
+        [Route("sysadmin")]
+        [Authorize(Policy = "SysAdminOnly")]
+        public string SysAdmin() => "SysAdministrator";
     }
 }

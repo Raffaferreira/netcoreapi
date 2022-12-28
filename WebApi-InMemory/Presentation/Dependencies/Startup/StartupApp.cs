@@ -65,8 +65,9 @@ namespace WebApi.Dependencies.Startup
             app.UseHealthChecks("/monitor");
             app.UseHttpsRedirection();
 
-            app.UseAuthorization();
+            app.UseRouting();
             app.UseAuthentication();
+            app.UseAuthorization();            
 
             app.MapControllers();
             app.Run();

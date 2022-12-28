@@ -19,6 +19,9 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using Presentation.Security;
+using Presentation.Security.Handlers;
+using Presentation.Security.Middleware;
 
 namespace WebApi.Dependencies.Startup
 {
@@ -58,8 +61,8 @@ namespace WebApi.Dependencies.Startup
 
             builder.Services.ConfigureOptions<ApplicationOptionsConfiguration>();
             builder.Services.ConfigureOptions<ConfigureSwaggerOptions>();
-            builder.Services.Configure<TopItemSettings>(TopItemSettings.Month,builder.Configuration.GetSection("TopItem:Month"));
-            builder.Services.Configure<TopItemSettings>(TopItemSettings.Year,builder.Configuration.GetSection("TopItem:Year"));
+            builder.Services.Configure<TopItemSettings>(TopItemSettings.Month, builder.Configuration.GetSection("TopItem:Month"));
+            builder.Services.Configure<TopItemSettings>(TopItemSettings.Year, builder.Configuration.GetSection("TopItem:Year"));
             //builder.Services.Configure<ApplicationSetup>(builder.Configuration.GetSection(nameof(ApplicationSetup)));
 
 
@@ -75,10 +78,31 @@ namespace WebApi.Dependencies.Startup
                 config.Filters.Add(new AuthorizeFilter(policy));
             });
 
+            builder.Services.AddSingleton<IAuthorizationHandler, IsAccountEnableHandler>();
+            builder.Services.AddSingleton<IAuthorizationHandler, IsVIPCustomerHandler>();
+            builder.Services.AddSingleton<IAuthorizationMiddlewareResultHandler, SampleAuthorizationMiddlewareResultHandler>();
+            builder.Services.AddSingleton<IAuthorizationMiddlewareResultHandler, SampleAuthorizationMiddlewareResultHandler>();
+
+
             builder.Services.AddAuthorization(options =>
             {
-                options.AddPolicy("user", policy => policy.RequireClaim(ClaimTypes.Role, "user"));
-                options.AddPolicy("admin", policy => policy.RequireClaim(ClaimTypes.Role, "admin"));
+                options.AddPolicy("UserOnly", policy => policy.RequireClaim(ClaimTypes.Role, UserRoles.User));
+                options.AddPolicy("AdminOnly", policy => policy.RequireClaim(ClaimTypes.Role, UserRoles.Admin));
+                options.AddPolicy("ManagerOnly", policy => policy.RequireClaim(ClaimTypes.Role, UserRoles.Manager));
+                options.AddPolicy("SysAdminOnly", policy => policy.RequireClaim(ClaimTypes.Role, UserRoles.SysAdmin));
+                options.AddPolicy("Founders", policy => policy.RequireClaim("EmployeeNumber", "1", "2", "3", "4", "5"));
+                options.AddPolicy("EnableToAll", policy =>
+                {
+                    policy.RequireRole(UserRoles.Admin, UserRoles.SysAdmin, UserRoles.Manager, UserRoles.User);
+                });
+                options.AddPolicy("EnableToAll", policy =>
+                {
+                    //policy.RequireClaim(ClaimTypes.Role, UserRoles.SysAdmin);
+                    //policy.RequireClaim(ClaimTypes.Role, UserRoles.Admin);
+                    //policy.RequireClaim(ClaimTypes.Role, UserRoles.Manager);
+                    //policy.RequireClaim(ClaimTypes.Role, UserRoles.User);
+                });
+                options.AddPolicy("canManageProduct", policyBuilder => policyBuilder.AddRequirements(new IsAccountEnabledRequirement()));
             });
 
             builder.Services.AddAuthentication(options =>
@@ -96,11 +120,18 @@ namespace WebApi.Dependencies.Startup
                     ValidAudience = builder.Configuration["ApplicationSetup:TokenConfigurations:Audience"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["ApplicationSetup:TokenConfigurations:SecretJWTKey"])),
                     ValidateIssuerSigningKey = true,
-                    ValidateIssuer = false,
-                    ValidateAudience = false,
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
                     ValidateLifetime = true,
                 };
-            }).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options => builder.Configuration.Bind("CookieSettings", options));
+            }).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+            {
+                builder.Configuration.Bind("CookieSettings", options);
+                options.LoginPath = "/Account/Login";
+                options.LogoutPath = "/Account/Logout";
+                options.AccessDeniedPath = "/Account/AccessDenied";
+                options.ReturnUrlParameter = "ReturnUrl";
+            });
 
         }
 
@@ -115,20 +146,20 @@ namespace WebApi.Dependencies.Startup
             {
                 //options.SwaggerDoc("v1", new OpenApiInfo
                 //{
-                    //Version = "v1",
-                    //Title = "ToDo API",
-                    //Description = "An ASP.NET Core Web API for managing ToDo items",
-                    //TermsOfService = new Uri("https://example.com/terms"),
-                    //Contact = new OpenApiContact
-                    //{
-                    //    Name = "Example Contact",
-                    //    Url = new Uri("https://example.com/contact")
-                    //},
-                    //License = new OpenApiLicense
-                    //{
-                    //    Name = "Example License",
-                    //    Url = new Uri("https://example.com/license")
-                    //}
+                //Version = "v1",
+                //Title = "ToDo API",
+                //Description = "An ASP.NET Core Web API for managing ToDo items",
+                //TermsOfService = new Uri("https://example.com/terms"),
+                //Contact = new OpenApiContact
+                //{
+                //    Name = "Example Contact",
+                //    Url = new Uri("https://example.com/contact")
+                //},
+                //License = new OpenApiLicense
+                //{
+                //    Name = "Example License",
+                //    Url = new Uri("https://example.com/license")
+                //}
                 //});
 
                 options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
