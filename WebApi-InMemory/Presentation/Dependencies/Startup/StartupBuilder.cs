@@ -1,4 +1,5 @@
 ﻿using AspNetCoreRateLimit;
+using AspNetCoreRateLimit.Redis;
 using Domain.Models;
 using Infrastructure.Context;
 using MediatR;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
@@ -14,6 +16,7 @@ using Presentation.Dependencies;
 using Presentation.Security.Handlers;
 using Presentation.Security.Middleware;
 using Presentation.Security.Startup;
+using StackExchange.Redis;
 using System.Reflection;
 using System.Text;
 using System.Text.Json;
@@ -75,37 +78,18 @@ namespace WebApi.Dependencies.Startup
 
             builder.AddAuthorizationHandlers();
             builder.AddAuthorizationAndAuthenticationConfiguration();
-            
+
+            builder.Services.AddOptions();
             builder.Services.AddMemoryCache();
             builder.Services.Configure<IpRateLimitOptions>(builder.Configuration.GetSection("IpRateLimiting"));
-            builder.Services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
-            builder.Services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
-            builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
-            builder.Services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
+            builder.Services.Configure<IpRateLimitPolicies>(builder.Configuration.GetSection("IpRateLimitPolicies"));
             builder.Services.AddInMemoryRateLimiting();
+            builder.Services.AddMvc();
+            builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+            builder.Services.AddSingleton<IIpPolicyStore, DistributedCacheIpPolicyStore>();
+            builder.Services.AddSingleton<IRateLimitCounterStore, DistributedCacheRateLimitCounterStore>();
 
-            //builder.Services.AddMemoryCache();
-            //builder.Services.Configure<IpRateLimitOptions>(builder.Configuration.GetSection("IpRateLimiting"));
-            //builder.Services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
-            //builder.Services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
-            //builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
-            //builder.Services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
-            //builder.Services.Configure<ClientRateLimitOptions>(options =>
-            //{
-            //    options.EnableEndpointRateLimiting = true;
-            //    options.StackBlockedRequests = false;
-            //    options.HttpStatusCode = 429;
-            //    options.GeneralRules = new List<RateLimitRule>
-            //    {
-            //        new RateLimitRule
-            //        {
-            //            Endpoint = "*",
-            //            Period = "1s",
-            //            Limit = 1
-            //        }
-            //    };
-            //});
-            //builder.Services.AddInMemoryRateLimiting();
+
         }
 
         /// <summary>

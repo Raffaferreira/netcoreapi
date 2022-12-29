@@ -1,9 +1,6 @@
 ﻿using Domain.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Presentation.Decorators;
-using Presentation.Security;
 
 namespace Presentation.Controllers.v1
 {
@@ -27,7 +24,6 @@ namespace Presentation.Controllers.v1
 
         [HttpPost]
         [Route("")]
-        [LimitRequest(MaxRequests = 2, TimeWindow = 5)]
         public ActionResult<string> Products()
         {
             return "User, Admin, Manager e SysAdmin";
