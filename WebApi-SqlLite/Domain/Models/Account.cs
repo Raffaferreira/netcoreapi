@@ -12,7 +12,7 @@ namespace Domain.Models
         [Required]
         public Guid Id { get; set; }
         [Required]
-        public int AccountNumber { get; set; }
+        public int AccountNumber { get; set; }      
         public decimal Balance { get; set; }
     }
 }

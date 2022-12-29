@@ -2,6 +2,7 @@ using Domain.Models;
 using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Presentation.Dependencies.Startup;
+using Presentation.Middleware;
 using WebApi.Dependencies.Startup;
 
 namespace Presentation
@@ -18,11 +19,17 @@ namespace Presentation
             builder.AddRegisterRepositories();
             builder.AddRegisterServices();
 
+            //rate limit
+            builder.Services.AddDistributedMemoryCache();
+
             string ConnectionString = builder.ConnectionStringSqlite();
 
             var app = builder.Build();
             app.RegisterMinimalApis();
             app.StartupConfigurationApp();
+
+            //rate limit
+            app.UseRateLimiting();
 
             async Task CheckExistingDatabaseSQLite(IServiceProvider services, ILogger logger)
             {

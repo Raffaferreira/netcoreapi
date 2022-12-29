@@ -1,13 +1,9 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Presentation.Controllers.Base
 {
-    [Authorize]
-    [ApiController]
+    [Controller]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiVersion("1.0")]
     public class BaseController : ControllerBase
@@ -21,5 +17,16 @@ namespace Presentation.Controllers.Base
                 return _mediator = HttpContext.RequestServices.GetService<IMediator>()!;
             }
         }
+
+        private ISender? _mediatorSender;
+
+        protected ISender MediatorSender
+        {
+            get
+            {
+                return _mediatorSender = HttpContext.RequestServices.GetService<ISender>()!;
+            }
+        }
+
     }
 }

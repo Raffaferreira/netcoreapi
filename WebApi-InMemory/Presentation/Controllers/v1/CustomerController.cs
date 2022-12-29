@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Controllers.Base;
 using Presentation.ViewModel;
-//using System.Web.Http;
 using FromBodyAttribute = Microsoft.AspNetCore.Mvc.FromBodyAttribute;
 using HttpDeleteAttribute = Microsoft.AspNetCore.Mvc.HttpDeleteAttribute;
 using HttpGetAttribute = Microsoft.AspNetCore.Mvc.HttpGetAttribute;

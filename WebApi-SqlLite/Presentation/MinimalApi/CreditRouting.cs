@@ -4,54 +4,67 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Presentation.MinimalApi
 {
-    public static class CreditRouting 
+    public static class CreditRouting
     {
-        public static void RegisterMinimalApiCredit(this WebApplication app)
+        public static void RegisterMinimalApiDebit(this WebApplication app)
         {
-            app.MapGet("/debits", async (WebApiDbContext db) =>
+            app.MapGet("/credit", async (WebApiDbContext db) =>
             {
-                return await db.Debito.ToListAsync();
+                return await db.Credito.ToListAsync();
             });
 
-            app.MapGet("/debit/{accoutNumber}", async (Guid Id, WebApiDbContext db) =>
+            app.MapGet("/credit/{accountId}", async (Guid accountId, WebApiDbContext db) =>
             {
-                return await db.Debito.FindAsync(Id)
-                is Debito transactions ?
-                Results.Ok(transactions) : Results.NotFound();
+                return await db.Credito.FindAsync(accountId)
+                is Credito credito ?
+                Results.Ok(credito) : Results.NotFound();
             });
 
-            app.MapPost("/debit", async (Debito debit, WebApiDbContext db) =>
+            app.MapPost("/credit", async (Credito crdt, WebApiDbContext db) =>
             {
-                db.Debito.Add(debit);
+                db.Credito.Add(crdt);
                 await db.SaveChangesAsync();
 
-                return Results.Created($"/transactions/{debit.Id}", debit);
+                return Results.Created($"/credit/{crdt.Id}", crdt);
             });
 
-            app.MapPut("/debit/{accountId}", async (Guid accountId, Debito dbt, WebApiDbContext db) =>
+            app.MapPut("/credit/{accountId}", async (Guid accountId, Credito crdt, WebApiDbContext db) =>
             {
-                var todo = await db.Debito.FindAsync(accountId);
+                var credito = await db.Credito.FindAsync(accountId);
 
-                if (todo is null) return Results.NotFound();
+                if (credito is null) return Results.NoContent();
 
-                todo.Id = dbt.Id;
-                todo.AccountTobeWithdraw = dbt.AccountTobeWithdraw;
+                credito.Value = crdt.Value;
 
                 await db.SaveChangesAsync();
 
-                return Results.Ok();
+                return Results.Ok(credito);
             });
 
-            app.MapDelete("/debit/{accountId}", async (Guid accountId, WebApiDbContext db) =>
+            app.MapMethods("/credit/{accountId}", new string[] { "PATCH" }, async (Guid accountId, Credito crdt, WebApiDbContext db) =>
             {
-                if (await db.Debito.FindAsync(accountId) is Debito dbt)
+                var credito = await db.Credito.FindAsync(accountId);
+
+                if (credito is null) return Results.NotFound();
+
+                credito.AccountTobeCredited = crdt.AccountTobeCredited;
+                credito.Value = crdt.Value;
+
+                await db.SaveChangesAsync();
+
+                return Results.NoContent();
+            });
+
+            app.MapDelete("/credit/{accountId}", async (Guid accountId, WebApiDbContext db) =>
+            {
+                if (await db.Credito.FindAsync(accountId) is Credito credito)
                 {
-                    db.Debito.Remove(dbt);
+                    db.Credito.Remove(credito);
                     await db.SaveChangesAsync();
-                    return Results.Ok(dbt);
+                    return Results.Ok(credito);
                 }
 
-                return Results.Ok();
+                return Results.NotFound();
             });
         }
     }

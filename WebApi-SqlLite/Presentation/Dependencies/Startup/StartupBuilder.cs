@@ -1,18 +1,24 @@
-﻿using Domain.Models;
+﻿using AspNetCoreRateLimit;
+using Domain.Models;
 using Infrastructure.Context;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Presentation.Dependencies;
+using Presentation.Security.Handlers;
+using Presentation.Security.Middleware;
+using Presentation.Security.Startup;
 using System.Reflection;
 using System.Text;
 using System.Text.Json;
-using Presentation.Dependencies.HealthChecks;
 
-namespace Presentation.Dependencies.Startup
+namespace WebApi.Dependencies.Startup
 {
     /// <summary>
     /// 
@@ -24,45 +30,73 @@ namespace Presentation.Dependencies.Startup
         /// </summary>
         /// <param name="builder"></param>
         public static void ConfigurationStartupBuilder(this WebApplicationBuilder builder)
-        {     
+        {
             builder.Services.AddControllers();
+            builder.Services.AddApiVersioning(p =>
+            {
+                p.DefaultApiVersion = new ApiVersion(1, 0);
+                p.ReportApiVersions = true;
+                p.AssumeDefaultVersionWhenUnspecified = true;
+                p.ApiVersionReader = ApiVersionReader.Combine(new UrlSegmentApiVersionReader(),
+                                     new HeaderApiVersionReader("x-api-version"),
+                                     new MediaTypeApiVersionReader("x-api-version"));
+            });
+
+            builder.Services.AddVersionedApiExplorer(setup =>
+            {
+                setup.GroupNameFormat = "'v'VVV";
+                setup.SubstituteApiVersionInUrl = true;
+            });
+
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.SwaggerDocumentation();
 
-            builder.Services.AddDbContext<WebApiDbContext>(opt => opt.UseSqlite("DataSource=Presentation.db;Cache=Shared"));
-            builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            //builder.Configuration.GetConnectionString("SqliteConnectionString");
 
-            builder.Services.AddAuthorization();
-            builder.Services.AddAuthentication();   
-            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.ConfigureOptions<ApplicationOptionsConfiguration>();
+            builder.Services.ConfigureOptions<ConfigureSwaggerOptions>();
+            builder.Services.Configure<TopItemSettings>(TopItemSettings.Month, builder.Configuration.GetSection("TopItem:Month"));
+            builder.Services.Configure<TopItemSettings>(TopItemSettings.Year, builder.Configuration.GetSection("TopItem:Year"));
+            //builder.Services.Configure<ApplicationSetup>(builder.Configuration.GetSection(nameof(ApplicationSetup)));
+
+
+            builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
+            builder.Services.AddDbContext<WebApiDbContext>(options => options.UseInMemoryDatabase(databaseName: "WebApi"));
+
+
             builder.Services.AddHealthChecks();
-
-            builder.Services.AddHealthChecks().AddCheck<HealthCheckApp>("Sample",
-                failureStatus: HealthStatus.Degraded,
-                tags: new[] { "Sample" }).AddSqlServer("", name: "sqlserver", tags: new string[] { "db", "data" });
-
-            builder.Services.AddAuthentication(options =>
+            builder.Services.AddCors();
+            builder.Services.AddMvc(config =>
             {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(x =>
+                var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+                config.Filters.Add(new AuthorizeFilter(policy));
+            });
+
+            builder.Services.AddSingleton<IAuthorizationHandler, IsAccountEnableHandler>();
+            builder.Services.AddSingleton<IAuthorizationHandler, IsVIPCustomerHandler>();
+            builder.Services.AddSingleton<IAuthorizationMiddlewareResultHandler, SampleAuthorizationMiddlewareResultHandler>();
+            builder.Services.AddSingleton<IAuthorizationMiddlewareResultHandler, SampleAuthorizationMiddlewareResultHandler>();
+
+            builder.AddAuthorizationAndAuthenticationConfiguration();
+            builder.AddRateLimiterConfiguration();
+
+            builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+            builder.Services.Configure<ClientRateLimitOptions>(options =>
             {
-                x.RequireHttpsMetadata = false;
-                x.SaveToken = true;
-                x.TokenValidationParameters = new TokenValidationParameters
+                options.EnableEndpointRateLimiting = true;
+                options.StackBlockedRequests = false;
+                options.HttpStatusCode = 429;
+                options.GeneralRules = new List<RateLimitRule>
                 {
-                    ValidIssuer = builder.Configuration["TokenConfigurations:Issuer"],
-                    ValidAudience = builder.Configuration["TokenConfigurations:Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["TokenConfigurations:SecretJWTKey"])),
-                    ValidateIssuerSigningKey = true,
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = false,
+                    new RateLimitRule
+                    {
+                        Endpoint = "*",
+                        Period = "10s",
+                        Limit = 2
+                    }
                 };
-            }).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options => builder.Configuration.Bind("CookieSettings", options));
-
+            });
         }
 
         /// <summary>
@@ -74,23 +108,23 @@ namespace Presentation.Dependencies.Startup
             //builder.Services.AddSwaggerGen();
             builder.Services.AddSwaggerGen(options =>
             {
-                options.SwaggerDoc("v1", new OpenApiInfo
-                {
-                    Version = "v1",
-                    Title = "ToDo API",
-                    Description = "An ASP.NET Core Web API for managing ToDo items",
-                    TermsOfService = new Uri("https://example.com/terms"),
-                    Contact = new OpenApiContact
-                    {
-                        Name = "Example Contact",
-                        Url = new Uri("https://example.com/contact")
-                    },
-                    License = new OpenApiLicense
-                    {
-                        Name = "Example License",
-                        Url = new Uri("https://example.com/license")
-                    }
-                });
+                //options.SwaggerDoc("v1", new OpenApiInfo
+                //{
+                //Version = "v1",
+                //Title = "ToDo API",
+                //Description = "An ASP.NET Core Web API for managing ToDo items",
+                //TermsOfService = new Uri("https://example.com/terms"),
+                //Contact = new OpenApiContact
+                //{
+                //    Name = "Example Contact",
+                //    Url = new Uri("https://example.com/contact")
+                //},
+                //License = new OpenApiLicense
+                //{
+                //    Name = "Example License",
+                //    Url = new Uri("https://example.com/license")
+                //}
+                //});
 
                 options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {

@@ -1,28 +1,22 @@
-﻿using Domain.Models;
+﻿using AspNetCoreRateLimit;
+using Domain.Models;
 using Infrastructure.Context;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Presentation;
 using Presentation.Dependencies;
+using Presentation.Security.Handlers;
+using Presentation.Security.Middleware;
+using Presentation.Security.Startup;
 using System.Reflection;
 using System.Text;
 using System.Text.Json;
-using MediatR;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Mvc.Versioning;
-using Swashbuckle.AspNetCore.SwaggerGen;
-using Presentation.Security;
-using Presentation.Security.Handlers;
-using Presentation.Security.Middleware;
-using Presentation.Security.Requirements;
 
 namespace WebApi.Dependencies.Startup
 {
@@ -79,61 +73,39 @@ namespace WebApi.Dependencies.Startup
                 config.Filters.Add(new AuthorizeFilter(policy));
             });
 
-            builder.Services.AddSingleton<IAuthorizationHandler, IsAccountEnableHandler>();
-            builder.Services.AddSingleton<IAuthorizationHandler, IsVIPCustomerHandler>();
-            builder.Services.AddSingleton<IAuthorizationMiddlewareResultHandler, SampleAuthorizationMiddlewareResultHandler>();
-            builder.Services.AddSingleton<IAuthorizationMiddlewareResultHandler, SampleAuthorizationMiddlewareResultHandler>();
+            builder.AddAuthorizationHandlers();
+            builder.AddAuthorizationAndAuthenticationConfiguration();
+            
+            builder.Services.AddMemoryCache();
+            builder.Services.Configure<IpRateLimitOptions>(builder.Configuration.GetSection("IpRateLimiting"));
+            builder.Services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
+            builder.Services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
+            builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+            builder.Services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
+            builder.Services.AddInMemoryRateLimiting();
 
-
-            builder.Services.AddAuthorization(options =>
-            {
-                options.AddPolicy("UserOnly", policy => policy.RequireClaim(ClaimTypes.Role, UserRoles.User));
-                options.AddPolicy("AdminOnly", policy => policy.RequireClaim(ClaimTypes.Role, UserRoles.Admin));
-                options.AddPolicy("ManagerOnly", policy => policy.RequireClaim(ClaimTypes.Role, UserRoles.Manager));
-                options.AddPolicy("SysAdminOnly", policy => policy.RequireClaim(ClaimTypes.Role, UserRoles.SysAdmin));
-                options.AddPolicy("Founders", policy => policy.RequireClaim("EmployeeNumber", "1", "2", "3", "4", "5"));
-                options.AddPolicy("EnableToAll", policy =>
-                {
-                    policy.RequireRole(UserRoles.Admin, UserRoles.SysAdmin, UserRoles.Manager, UserRoles.User);
-                });
-                options.AddPolicy("EnableToAllClaims", policy =>
-                {
-                    policy.RequireClaim(ClaimTypes.Role, UserRoles.SysAdmin);
-                    //policy.RequireClaim(ClaimTypes.Role, UserRoles.Admin);
-                    //policy.RequireClaim(ClaimTypes.Role, UserRoles.Manager);
-                    //policy.RequireClaim(ClaimTypes.Role, UserRoles.User);
-                });
-                options.AddPolicy("canManageProduct", policyBuilder => policyBuilder.AddRequirements(new IsAccountEnabledRequirement()));
-            });
-
-            builder.Services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(x =>
-            {
-                x.RequireHttpsMetadata = false;
-                x.SaveToken = true;
-                x.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidIssuer = builder.Configuration["ApplicationSetup:TokenConfigurations:Issuer"],
-                    ValidAudience = builder.Configuration["ApplicationSetup:TokenConfigurations:Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["ApplicationSetup:TokenConfigurations:SecretJWTKey"])),
-                    ValidateIssuerSigningKey = true,
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                };
-            }).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
-            {
-                builder.Configuration.Bind("CookieSettings", options);
-                options.LoginPath = "/Account/Login";
-                options.LogoutPath = "/Account/Logout";
-                options.AccessDeniedPath = "/Account/AccessDenied";
-                options.ReturnUrlParameter = "ReturnUrl";
-            });
-
+            //builder.Services.AddMemoryCache();
+            //builder.Services.Configure<IpRateLimitOptions>(builder.Configuration.GetSection("IpRateLimiting"));
+            //builder.Services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
+            //builder.Services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
+            //builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+            //builder.Services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
+            //builder.Services.Configure<ClientRateLimitOptions>(options =>
+            //{
+            //    options.EnableEndpointRateLimiting = true;
+            //    options.StackBlockedRequests = false;
+            //    options.HttpStatusCode = 429;
+            //    options.GeneralRules = new List<RateLimitRule>
+            //    {
+            //        new RateLimitRule
+            //        {
+            //            Endpoint = "*",
+            //            Period = "1s",
+            //            Limit = 1
+            //        }
+            //    };
+            //});
+            //builder.Services.AddInMemoryRateLimiting();
         }
 
         /// <summary>

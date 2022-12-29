@@ -1,10 +1,14 @@
 ﻿using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
-namespace Presentation.Dependencies.Startup
+namespace WebApi.Dependencies.Startup
 {
     /// <summary>
-    /// A web application configuration
+    /// A web application configuration, any doubt check the following link: 
+    /// https://code-maze.com/aspnetcore-api-versioning/
+    /// https://dotnetthoughts.net/aspnetcore-api-versioning-with-net-6-minimal-apis/
+    /// https://blog.christian-schou.dk/how-to-use-api-versioning-in-net-core-web-api/
     /// </summary>
     public static class StartupApp
     {
@@ -14,23 +18,29 @@ namespace Presentation.Dependencies.Startup
         /// <param name="app"></param>
         public static void StartupConfigurationApp(this WebApplication app)
         {
+            var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
+
             if (app.Environment.IsDevelopment())
             {
-                app.MapSwagger();
+                //app.MapSwagger();
                 app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseSwaggerUI(options =>
+                {
+                    //options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+                    //options.RoutePrefix = string.Empty;
+                    foreach (var description in apiVersionDescriptionProvider.ApiVersionDescriptions)
+                    {
+                        options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json",
+                            description.GroupName.ToUpperInvariant());
+                    }
+                });
+
                 app.UseExceptionHandler("/error-development");
             }
             else
             {
                 app.UseExceptionHandler("/error");
-            }
-
-            app.UseSwaggerUI(options =>
-            {
-                options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
-                options.RoutePrefix = string.Empty;
-            });
+            }            
 
             app.MapHealthChecks("/healthz", new HealthCheckOptions
             {
@@ -45,10 +55,20 @@ namespace Presentation.Dependencies.Startup
                 ResponseWriter = StartupBuilder.WriteResponse
             });
 
+
+            app.UseStaticFiles();
+            app.UseCors(x => x
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+
             app.UseHealthChecks("/monitor");
             app.UseHttpsRedirection();
-            app.UseAuthorization();
+
+            app.UseRouting();
             app.UseAuthentication();
+            app.UseAuthorization();            
+
             app.MapControllers();
             app.Run();
         }
