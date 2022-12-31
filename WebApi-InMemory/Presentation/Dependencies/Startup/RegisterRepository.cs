@@ -3,7 +3,7 @@ using Infrastructure.Repositories;
 
 namespace Presentation.Dependencies.Startup
 {
-    public static class RegisterRepositories
+    public static class RegisterRepository
     {
         public static void AddRegisterRepositories(this WebApplicationBuilder builder)
         {

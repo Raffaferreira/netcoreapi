@@ -25,7 +25,7 @@ namespace WebApi.Dependencies.Startup
 
             if (app.Environment.IsDevelopment())
             {
-                //app.MapSwagger();
+                app.MapSwagger();
                 app.UseSwagger();
                 app.UseSwaggerUI(options =>
                 {

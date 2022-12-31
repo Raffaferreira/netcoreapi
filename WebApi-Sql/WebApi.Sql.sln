@@ -5,7 +5,7 @@ VisualStudioVersion = 17.3.32825.248
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Presentation", "Presentation\Presentation.csproj", "{866EF569-2908-4789-AF9E-CABDCEED38DE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi.Sqlite.IntegrationTests", "WebApi.Sqlite.IntegrationTests\WebApi.Sqlite.IntegrationTests.csproj", "{A53D388A-B57A-4A68-800B-B299C85C1AC1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi.Sql.IntegrationTests", "WebApi.Sql.IntegrationTests\WebApi.Sql.IntegrationTests.csproj", "{A53D388A-B57A-4A68-800B-B299C85C1AC1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7E69A833-1B56-4D53-B230-3388B775CDC6}"
 	ProjectSection(SolutionItems) = preProject
@@ -23,9 +23,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B7A429D9-A65
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{ABD6E6C1-506B-4E2C-BD58-DC38EC207A32}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi.Sqlite.FunctionalTests", "WebApi.Sqlite.FunctionalTests\WebApi.Sqlite.FunctionalTests.csproj", "{F81E5D74-3180-4AB6-A6F0-D1B82EC1719E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi.Sql.FunctionalTests", "WebApi.Sql.FunctionalTests\WebApi.Sql.FunctionalTests.csproj", "{F81E5D74-3180-4AB6-A6F0-D1B82EC1719E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi.Sqlite.UnitTests", "WebApi.Sqlite.UnitTests\WebApi.Sqlite.UnitTests.csproj", "{38FA7062-084C-4D0D-B007-62382CC85345}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi.Sql.UnitTests", "WebApi.Sql.UnitTests\WebApi.Sql.UnitTests.csproj", "{38FA7062-084C-4D0D-B007-62382CC85345}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
