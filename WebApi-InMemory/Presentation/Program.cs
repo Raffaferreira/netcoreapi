@@ -1,6 +1,4 @@
-using AspNetCoreRateLimit;
 using Infrastructure.Context;
-using Microsoft.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Presentation.Dependencies.Startup;
 using WebApi.Dependencies.Startup;

@@ -61,12 +61,9 @@ namespace WebApi.Dependencies.Startup
             builder.Services.ConfigureOptions<ConfigureSwaggerOptions>();
             builder.Services.Configure<TopItemSettings>(TopItemSettings.Month, builder.Configuration.GetSection("TopItem:Month"));
             builder.Services.Configure<TopItemSettings>(TopItemSettings.Year, builder.Configuration.GetSection("TopItem:Year"));
-            //builder.Services.Configure<ApplicationSetup>(builder.Configuration.GetSection(nameof(ApplicationSetup)));
-
 
             builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
             builder.Services.AddDbContext<WebApiDbContext>(options => options.UseInMemoryDatabase(databaseName: "WebApi"));
-
 
             builder.Services.AddHealthChecks();
             builder.Services.AddCors();
@@ -79,17 +76,15 @@ namespace WebApi.Dependencies.Startup
             builder.AddAuthorizationHandlers();
             builder.AddAuthorizationAndAuthenticationConfiguration();
 
-            builder.Services.AddOptions();
-            builder.Services.AddMemoryCache();
-            builder.Services.Configure<IpRateLimitOptions>(builder.Configuration.GetSection("IpRateLimiting"));
-            builder.Services.Configure<IpRateLimitPolicies>(builder.Configuration.GetSection("IpRateLimitPolicies"));
-            builder.Services.AddInMemoryRateLimiting();
-            builder.Services.AddMvc();
-            builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
-            builder.Services.AddSingleton<IIpPolicyStore, DistributedCacheIpPolicyStore>();
-            builder.Services.AddSingleton<IRateLimitCounterStore, DistributedCacheRateLimitCounterStore>();
-
-
+            //builder.Services.AddOptions();
+            //builder.Services.AddMemoryCache();
+            //builder.Services.Configure<IpRateLimitOptions>(builder.Configuration.GetSection("IpRateLimiting"));
+            //builder.Services.Configure<IpRateLimitPolicies>(builder.Configuration.GetSection("IpRateLimitPolicies"));
+            //builder.Services.AddInMemoryRateLimiting();
+            //builder.Services.AddMvc();
+            //builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+            //builder.Services.AddSingleton<IIpPolicyStore, DistributedCacheIpPolicyStore>();
+            //builder.Services.AddSingleton<IRateLimitCounterStore, DistributedCacheRateLimitCounterStore>();
         }
 
         /// <summary>
@@ -100,25 +95,7 @@ namespace WebApi.Dependencies.Startup
         {
             //builder.Services.AddSwaggerGen();
             builder.Services.AddSwaggerGen(options =>
-            {
-                //options.SwaggerDoc("v1", new OpenApiInfo
-                //{
-                //Version = "v1",
-                //Title = "ToDo API",
-                //Description = "An ASP.NET Core Web API for managing ToDo items",
-                //TermsOfService = new Uri("https://example.com/terms"),
-                //Contact = new OpenApiContact
-                //{
-                //    Name = "Example Contact",
-                //    Url = new Uri("https://example.com/contact")
-                //},
-                //License = new OpenApiLicense
-                //{
-                //    Name = "Example License",
-                //    Url = new Uri("https://example.com/license")
-                //}
-                //});
-
+            {           
                 options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Description =
