@@ -15,6 +15,7 @@ namespace Presentation.Dependencies.Startup
             builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
             builder.Services.AddSingleton<IIpPolicyStore, DistributedCacheIpPolicyStore>();
             builder.Services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
+            builder.Services.AddSingleton<IRateLimitConfiguration, CustomRateLimitConfiguration>();
 
             builder.Services.AddInMemoryRateLimiting();
         }
