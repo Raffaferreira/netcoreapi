@@ -20,7 +20,6 @@ namespace Presentation.Controllers.v1
         [AllowAnonymous]
         [HttpGet]
         [Authorize]
-        [MapToApiVersion("1.0")]
         public async Task<ActionResult<CustomerResponse>> Get()
         {
             return await Mediator.Send(new CustomerRequest());
