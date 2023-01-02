@@ -1,15 +1,13 @@
 ﻿using Domain.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Presentation.Security;
 
 namespace Presentation.Controllers.v1
 {
     [ApiController]
     [ApiVersion("1.0")]
     [Produces("application/json")]
-    [Route("api/v{version:apiVersion}/product")]
+    [Route("api/v{version:apiVersion}/products")]
     public class ProductController : ControllerBase
     {
         private readonly ApplicationSetup _options;
@@ -25,11 +23,10 @@ namespace Presentation.Controllers.v1
         }
 
         [HttpPost]
-        [Route("login")]
-        [AllowAnonymous]
-        public async Task<ActionResult<string>> Authenticated()
+        [Route("")]
+        public ActionResult<string> Products()
         {
-            return await Task.FromResult(string.Format("User '{0}' Authenticated", User.Identity!.Name));
+            return "User, Admin, Manager e SysAdmin";
         }
     }
 }

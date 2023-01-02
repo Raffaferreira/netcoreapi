@@ -53,7 +53,7 @@ namespace Presentation.MinimalApi
                 await db.SaveChangesAsync();
 
                 return Results.NoContent();
-            });
+            }).RequireAuthorization("woopsy"); ;
 
             app.MapDelete("/credit/{accountId}", async (Guid accountId, WebApiDbContext db) =>
             {

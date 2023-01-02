@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+﻿using AspNetCoreRateLimit;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
@@ -18,11 +19,13 @@ namespace WebApi.Dependencies.Startup
         /// <param name="app"></param>
         public static void StartupConfigurationApp(this WebApplication app)
         {
+            app.UseIpRateLimiting();
+
             var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
 
             if (app.Environment.IsDevelopment())
             {
-                //app.MapSwagger();
+                app.MapSwagger();
                 app.UseSwagger();
                 app.UseSwaggerUI(options =>
                 {
@@ -67,7 +70,12 @@ namespace WebApi.Dependencies.Startup
 
             app.UseRouting();
             app.UseAuthentication();
-            app.UseAuthorization();            
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
 
             app.MapControllers();
             app.Run();

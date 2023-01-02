@@ -1,7 +1,5 @@
 ﻿using Application.Services;
-using Domain.Interfaces.Repository;
 using Domain.Interfaces.Services;
-using Infrastructure.Repositories;
 
 namespace Presentation.Dependencies.Startup
 {

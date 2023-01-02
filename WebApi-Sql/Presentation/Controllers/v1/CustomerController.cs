@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Controllers.Base;
 using Presentation.ViewModel;
-//using System.Web.Http;
 using FromBodyAttribute = Microsoft.AspNetCore.Mvc.FromBodyAttribute;
 using HttpDeleteAttribute = Microsoft.AspNetCore.Mvc.HttpDeleteAttribute;
 using HttpGetAttribute = Microsoft.AspNetCore.Mvc.HttpGetAttribute;
@@ -21,11 +20,9 @@ namespace Presentation.Controllers.v1
         [AllowAnonymous]
         [HttpGet]
         [Authorize]
-        [MapToApiVersion("1.0")]
         public async Task<ActionResult<CustomerResponse>> Get()
         {
             return await Mediator.Send(new CustomerRequest());
-
         }
 
         // GET: api/values/5

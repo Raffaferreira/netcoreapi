@@ -1,4 +1,3 @@
-using Domain.Models;
 using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Presentation.Dependencies.Startup;
@@ -12,7 +11,7 @@ namespace Presentation
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Environment.EnvironmentName = Environments.Development;
+            //builder.Environment.EnvironmentName = Environments.Development;
 
             builder.ConfigurationStartupBuilder();
             builder.AddRegisterRepositories();

@@ -1,5 +1,4 @@
-﻿using AspNetCoreRateLimit;
-using Domain.Models;
+﻿using Domain.Models;
 using Infrastructure.Context;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -11,8 +10,7 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Presentation.Dependencies;
-using Presentation.Security.Handlers;
-using Presentation.Security.Middleware;
+using Presentation.Dependencies.Startup;
 using Presentation.Security.Startup;
 using System.Reflection;
 using System.Text;
@@ -58,12 +56,9 @@ namespace WebApi.Dependencies.Startup
             builder.Services.ConfigureOptions<ConfigureSwaggerOptions>();
             builder.Services.Configure<TopItemSettings>(TopItemSettings.Month, builder.Configuration.GetSection("TopItem:Month"));
             builder.Services.Configure<TopItemSettings>(TopItemSettings.Year, builder.Configuration.GetSection("TopItem:Year"));
-            //builder.Services.Configure<ApplicationSetup>(builder.Configuration.GetSection(nameof(ApplicationSetup)));
-
 
             builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
             builder.Services.AddDbContext<WebApiDbContext>(options => options.UseInMemoryDatabase(databaseName: "WebApi"));
-
 
             builder.Services.AddHealthChecks();
             builder.Services.AddCors();
@@ -73,30 +68,9 @@ namespace WebApi.Dependencies.Startup
                 config.Filters.Add(new AuthorizeFilter(policy));
             });
 
-            builder.Services.AddSingleton<IAuthorizationHandler, IsAccountEnableHandler>();
-            builder.Services.AddSingleton<IAuthorizationHandler, IsVIPCustomerHandler>();
-            builder.Services.AddSingleton<IAuthorizationMiddlewareResultHandler, SampleAuthorizationMiddlewareResultHandler>();
-            builder.Services.AddSingleton<IAuthorizationMiddlewareResultHandler, SampleAuthorizationMiddlewareResultHandler>();
-
+            builder.AddAuthorizationHandlers();
             builder.AddAuthorizationAndAuthenticationConfiguration();
-            builder.AddRateLimiterConfiguration();
-
-            builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
-            builder.Services.Configure<ClientRateLimitOptions>(options =>
-            {
-                options.EnableEndpointRateLimiting = true;
-                options.StackBlockedRequests = false;
-                options.HttpStatusCode = 429;
-                options.GeneralRules = new List<RateLimitRule>
-                {
-                    new RateLimitRule
-                    {
-                        Endpoint = "*",
-                        Period = "10s",
-                        Limit = 2
-                    }
-                };
-            });
+            builder.AddRegisterRateLimiting();
         }
 
         /// <summary>
@@ -107,25 +81,7 @@ namespace WebApi.Dependencies.Startup
         {
             //builder.Services.AddSwaggerGen();
             builder.Services.AddSwaggerGen(options =>
-            {
-                //options.SwaggerDoc("v1", new OpenApiInfo
-                //{
-                //Version = "v1",
-                //Title = "ToDo API",
-                //Description = "An ASP.NET Core Web API for managing ToDo items",
-                //TermsOfService = new Uri("https://example.com/terms"),
-                //Contact = new OpenApiContact
-                //{
-                //    Name = "Example Contact",
-                //    Url = new Uri("https://example.com/contact")
-                //},
-                //License = new OpenApiLicense
-                //{
-                //    Name = "Example License",
-                //    Url = new Uri("https://example.com/license")
-                //}
-                //});
-
+            {           
                 options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Description =
