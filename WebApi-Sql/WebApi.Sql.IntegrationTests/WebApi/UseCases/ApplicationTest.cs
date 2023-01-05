@@ -33,6 +33,13 @@ namespace WebApi.Sql.IntegrationTests.WebApi.UseCases
         }
 
         [Fact]
+        public async Task Checking_Dependencies()
+        { 
+            var assembly = typeof(Presentation.AssemblyReference).Assembly;
+        
+        }
+
+        [Fact]
         public async Task MiddlewareTest_ReturnsNotFoundForRequest()
         {
             using var host = await new HostBuilder()
