@@ -7,17 +7,20 @@ namespace Infrastructure.Context
     public class WebApiDbContext : DbContext
     {
         public WebApiDbContext()
-        {}
+        { }
 
         public WebApiDbContext(DbContextOptions<WebApiDbContext> options)
         : base(options)
-        {}
+        { }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder
-                .UseSqlServer(@"Data Source=DESKTOP-VP7F5C3\SQLEXPRESS;Initial Catalog=WebApi;Integrated Security=True")
-                .LogTo(Console.WriteLine, LogLevel.Information);
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder
+                    .UseSqlServer(@"Data Source=DESKTOP-VP7F5C3\SQLEXPRESS;Initial Catalog=WebApi;Integrated Security=True")
+                    .LogTo(Console.WriteLine, LogLevel.Information);
+            }
         }
 
         public DbSet<Customer> Customer => Set<Customer>();
