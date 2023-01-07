@@ -12,7 +12,6 @@ namespace Presentation
             var builder = WebApplication.CreateBuilder(args);
 
             //builder.Environment.EnvironmentName = Environments.Development;
-
             builder.ConfigurationStartupBuilder();
             builder.AddRegisterRepositories();
             builder.AddRegisterServices();
