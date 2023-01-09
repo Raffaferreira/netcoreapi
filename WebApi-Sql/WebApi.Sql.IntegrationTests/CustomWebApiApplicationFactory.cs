@@ -62,7 +62,7 @@ namespace TestingXUnit
                 //});
 
                 //It works
-                services.AddEntityFrameworkSqlServer(services)
+                services.AddEntityFrameworkSqlServer()
                 .AddDbContext<WebApiDbContext>((sp, options) =>
                 {
                     options

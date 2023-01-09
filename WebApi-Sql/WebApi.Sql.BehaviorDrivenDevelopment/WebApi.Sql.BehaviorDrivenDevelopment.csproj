@@ -25,7 +25,6 @@
 
   <ItemGroup>
     <Folder Include="Hooks\" />
-    <Folder Include="Steps\" />
   </ItemGroup>
 
 </Project>
