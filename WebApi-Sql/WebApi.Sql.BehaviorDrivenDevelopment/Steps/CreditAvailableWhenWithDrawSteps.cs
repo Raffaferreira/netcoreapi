@@ -1,4 +1,5 @@
 ﻿using TechTalk.SpecFlow;
+using FluentAssertions;
 
 namespace WebApi.Sql.BehaviorDrivenDevelopment.Steps
 {
@@ -8,7 +9,9 @@ namespace WebApi.Sql.BehaviorDrivenDevelopment.Steps
         [Given(@"An user account which hasn't balance available")]
         public void AnUserAccountWhicHasntBalanceAvailable()
         {
+            int value = 10;
             ScenarioContext.StepIsPending();
+            value.Should().Be(10);
         }
 
         [Given(@"doesn't contain any credit or special credit")]

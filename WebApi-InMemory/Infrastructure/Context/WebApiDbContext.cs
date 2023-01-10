@@ -16,7 +16,7 @@ namespace Infrastructure.Context
         {
             if (!optionsBuilder.IsConfigured)
             {
-                //optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=IdenDB;Trusted_Connection=True;MultipleActiveResultSets=true");
+                optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-VP7F5C3\\SQLEXPRESS;Initial Catalog=WebApiTesting;Integrated Security=True");
             }
         }
 
