@@ -10,11 +10,14 @@ namespace WebApi.Sql.UnitTests.Mocking_Levels.Basics
         {
             var id = 12;
             var mock = new Mock<IRepository>();
+
             mock.Setup(x => x.Find(id)).Throws<ArgumentException>();
             var controller = new TestController(mock.Object);
             Assert.Throws<ArgumentException>(() => controller.GetCustomer(id));
+
             mock.SetupGet(x => x.TenantId).Throws<ArgumentException>();
             Assert.Throws<ArgumentException>(() => controller.TenantId());
+
             mock.SetupSet(x => x.TenantId = id).Throws<ArgumentException>();
             Assert.Throws<ArgumentException>(() => controller.SetTenantId(12));
         }
@@ -26,10 +29,13 @@ namespace WebApi.Sql.UnitTests.Mocking_Levels.Basics
             var mock = new Mock<IRepository>();
             var param = "Id";
             var message = "Missing parameter";
+
             var argumentException = new ArgumentException(message, param);
             mock.Setup(x => x.Find(id)).Throws(argumentException);
+
             var controller = new TestController(mock.Object);
             var ex = Assert.Throws<ArgumentException>(() => controller.GetCustomer(id));
+
             Assert.Same(argumentException, ex);
             Assert.Equal($"{message} (Parameter '{param}')", ex.Message);
             Assert.Equal(param, ex.ParamName);

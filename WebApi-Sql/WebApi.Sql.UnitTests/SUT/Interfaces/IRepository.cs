@@ -8,6 +8,8 @@ namespace WebApi.Sql.UnitTests.SUT.Interfaces
         event EventHandler FailedDatabaseRequest;
         int TenantId { get; set; }
         Customer CurrentCustomer { get; set; }
+        int CountCostumers();
+        int SumUpNumbers(int number1, int number2);
         Customer Find(int id);
         IList<Customer> GetSomeRecords(Expression<Func<Customer, bool>> where);
         void AddRecord(Customer customer);

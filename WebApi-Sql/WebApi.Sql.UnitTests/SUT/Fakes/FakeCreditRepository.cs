@@ -29,5 +29,15 @@ namespace WebApi.Sql.UnitTests.SUT.Fakes
         public Customer Get(int id, string name) => throw new NotImplementedException();
         public Task<int> GetCountAsync() => throw new NotImplementedException();
         public IList<Customer> GetSomeRecords(Expression<Func<Customer, bool>> where) => throw new NotImplementedException();
+
+        public int CountCostumers()
+        {
+            throw new NotImplementedException();
+        }
+
+        public int SumUpNumbers(int number1, int number2)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

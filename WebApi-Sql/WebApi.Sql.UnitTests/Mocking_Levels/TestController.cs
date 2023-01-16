@@ -45,6 +45,16 @@ namespace WebApi.Sql.UnitTests.Mocking_Levels
             }
         }
 
+        public int ReturnCustomersAmount()
+        {
+            return _repo.CountCostumers();
+        }
+
+        public int SumUp(int number1, int number2)
+        {
+            return _repo.SumUpNumbers(number1, number2);
+        }
+
         public Address GetCustomersAddress(int id) => _repo.Find(id).AddressNavigation;
 
         public async Task<int> GetCustomerCountAsync() => await _repo.GetCountAsync();
