@@ -12,22 +12,22 @@ namespace Infrastructure.Repositories
         {
             _db = db;
 
-            using var context = new WebApiDbContext();
-            var transactions = new List<Transactions>
-                {
-                   new Transactions()
-                   {
-                       Id = Guid.NewGuid(),
-                       Credited = 2000.00M,
-                       Debited = 550.00M,
-                       Balance = 5150.00M,
-                       AccountNumber = 0011,
-                       TransactionDate = new DateTimeOffset()
-                   }
-                };
+            //using var context = new WebApiDbContext();
+            //var transactions = new List<Transactions>
+            //    {
+            //       new Transactions()
+            //       {
+            //           Id = Guid.NewGuid(),
+            //           Credited = 2000.00M,
+            //           Debited = 550.00M,
+            //           Balance = 5150.00M,
+            //           AccountNumber = 0011,
+            //           TransactionDate = new DateTimeOffset()
+            //       }
+            //    };
 
-            context.Transactions.AddRange(transactions);
-            context.SaveChanges();
+            //context.Transactions.AddRange(transactions);
+            //context.SaveChanges();
         }
 
         public async Task<Customer> AddCustomer(Customer customer)
