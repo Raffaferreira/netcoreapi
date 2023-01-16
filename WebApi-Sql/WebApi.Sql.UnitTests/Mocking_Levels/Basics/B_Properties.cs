@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using WebApi.Sql.UnitTests.SUT;
 using WebApi.Sql.UnitTests.SUT.Interfaces;
 
-namespace WebApi.Sql.UnitTests.Mocking_Levels
+namespace WebApi.Sql.UnitTests.Mocking_Levels.Basics
 {
     public class B_Properties
     {

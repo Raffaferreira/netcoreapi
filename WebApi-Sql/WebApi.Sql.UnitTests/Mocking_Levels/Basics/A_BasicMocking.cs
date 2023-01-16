@@ -8,7 +8,7 @@ using WebApi.Sql.UnitTests.SUT;
 using WebApi.Sql.UnitTests.SUT.Interfaces;
 using WebApi.Sql.UnitTests.SUT.Models;
 
-namespace WebApi.Sql.UnitTests.Mocking_Levels
+namespace WebApi.Sql.UnitTests.Mocking_Levels.Basics
 {
     public class A_BasicMocking
     {
